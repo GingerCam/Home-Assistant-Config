@@ -1,0 +1,78 @@
+esphome:
+  name: button-deck
+  friendly_name: Button Deck
+
+esp8266:
+  board: nodemcuv2
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret api_key_buttondeck
+
+ota:
+  password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Button-Deck Fallback Hotspot"
+    password: "pcdnYQ84RETz"
+
+captive_portal:
+
+binary_sensor:
+  - platform: gpio
+    pin: 
+      number: D1
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    name: "deckButton1"
+  - platform: gpio
+    pin: 
+      number: D2
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    name: "deckButton2"
+  - platform: gpio
+    pin: 
+      number: D5
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    name: "deckButton3"
+  - platform: gpio
+    pin: 
+      number: D6
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    name: "deckButton4"
+
+light:
+  - platform: monochromatic
+    name: "Red led"
+    output: output_red
+  - platform: monochromatic
+    name: "Green led"
+    output: output_green
+
+output:
+  - platform: esp8266_pwm
+    id: output_red
+    pin: D7
+  - platform: esp8266_pwm
+    id: output_green
+    pin: D8
