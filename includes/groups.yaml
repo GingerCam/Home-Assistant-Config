@@ -1,0 +1,12 @@
+
+  known_guests:                                 #object_id
+    name: "Known Guests"
+    entities:
+      - device_tracker.george_s_a12
+  occupants:
+    name: "Occupants"
+    entities:
+      - person.iain
+      - person.rachel
+      - person.cam
+      - person.emily

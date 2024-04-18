@@ -1,0 +1,45 @@
+### Home Assistant ### 
+
+# Files with personal details
+*.crt
+*.bak
+*.csr
+*.key
+*.db
+*.db.*
+*.sqlite
+.google.token
+.uuid
+google.json
+google_calendars.yaml
+home-assistant_v2.db-*
+html5_push_registrations.conf
+.storage/icloud/
+.storage/icloud3/
+ip_bans.yaml  
+known_devices.yaml  
+plex.conf  
+pyozw.sqlite
+secrets.yaml
+flows_cred.json
+.flows_cred.json.backup
+
+# Folders
+.storage/*
+!.storage/lovelace*
+
+# Temporary files
+*.db-journal
+*.pid
+tts
+
+# Development files
+custom_components/
+
+# Log files
+*.log
+*.logs
+*.log.*
+*.logs.*
+home-assistant.log
+ozw_log.txt

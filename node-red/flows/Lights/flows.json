@@ -1,0 +1,1617 @@
+[
+    {
+        "id": "1314601862b9807f",
+        "type": "tab",
+        "label": "Lights",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6005ba69422d8e54",
+        "type": "group",
+        "z": "1314601862b9807f",
+        "name": "Conditions",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "7adf563807eb5b71",
+            "0ec8744dedf633af",
+            "b49b042bef810a65",
+            "a96a59eb8bbfca4e"
+        ],
+        "x": 194,
+        "y": 359,
+        "w": 552,
+        "h": 142
+    },
+    {
+        "id": "2d3fc235368e98de",
+        "type": "group",
+        "z": "1314601862b9807f",
+        "name": "Light control",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "bc0d578bb8feaddc",
+            "9e76f96b6eecc733",
+            "22a34126a8249305",
+            "e4d21d07862fe521",
+            "70783821e02baee4",
+            "e73447513906296c"
+        ],
+        "x": 934,
+        "y": 319,
+        "w": 172,
+        "h": 282
+    },
+    {
+        "id": "d37fa4231dd97c20",
+        "type": "group",
+        "z": "1314601862b9807f",
+        "name": "People Entities",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "910c87f13b42c161",
+            "dbe14ea1b3a82e62",
+            "9406e5ba318ad634"
+        ],
+        "x": 754,
+        "y": 339,
+        "w": 172,
+        "h": 242
+    },
+    {
+        "id": "b57af10ac222b059",
+        "type": "group",
+        "z": "1314601862b9807f",
+        "name": "Time entities",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "471a0223622beead",
+            "29e454fd30ebea95"
+        ],
+        "x": 14,
+        "y": 899,
+        "w": 152,
+        "h": 122
+    },
+    {
+        "id": "fcc72c54f2034d46",
+        "type": "api-current-state",
+        "z": "1314601862b9807f",
+        "name": "S23 Accent Colour",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "sensor.cam_s_s23_accent_color",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 170,
+        "y": 40,
+        "wires": [
+            [
+                "7eadcea9afe92905"
+            ]
+        ]
+    },
+    {
+        "id": "7be48521b5767d8a",
+        "type": "inject",
+        "z": "1314601862b9807f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 100,
+        "wires": [
+            [
+                "fcc72c54f2034d46",
+                "709e25fe13d1faae"
+            ]
+        ]
+    },
+    {
+        "id": "65f02980ca9ddd05",
+        "type": "api-call-service",
+        "z": "1314601862b9807f",
+        "name": "Bedroom LEDs",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.bedroom_lights"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1000,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7eadcea9afe92905",
+        "type": "function",
+        "z": "1314601862b9807f",
+        "name": "Set RGB colour",
+        "func": "var msg = {\n    \"payload\": {\n        \"data\": {\n            \"rgb_color\": msg.data.attributes.rgb_color,\n}\n        }\n    }\n;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 40,
+        "wires": [
+            [
+                "b5c0404a311561cf"
+            ]
+        ]
+    },
+    {
+        "id": "b5c0404a311561cf",
+        "type": "change",
+        "z": "1314601862b9807f",
+        "name": "Delete Entity ID",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "data.entity_id",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 560,
+        "y": 40,
+        "wires": [
+            [
+                "869d3b27b4cd4767"
+            ]
+        ]
+    },
+    {
+        "id": "709e25fe13d1faae",
+        "type": "api-current-state",
+        "z": "1314601862b9807f",
+        "name": "Emily's Accent Colour",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "sensor.emllys_phone_accent_color",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 180,
+        "y": 160,
+        "wires": [
+            [
+                "c6f2e892f1144cc6"
+            ]
+        ]
+    },
+    {
+        "id": "c6f2e892f1144cc6",
+        "type": "function",
+        "z": "1314601862b9807f",
+        "name": "Set RGB colour",
+        "func": "var msg = {\n    \"payload\": {\n        \"data\": {\n            \"rgb_color\": msg.data.attributes.rgb_color,\n}\n        }\n    }\n;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 160,
+        "wires": [
+            [
+                "043e7c4d04896cb8"
+            ]
+        ]
+    },
+    {
+        "id": "043e7c4d04896cb8",
+        "type": "change",
+        "z": "1314601862b9807f",
+        "name": "Delete Entity ID",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "data.entity_id",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 560,
+        "y": 160,
+        "wires": [
+            [
+                "869d3b27b4cd4767"
+            ]
+        ]
+    },
+    {
+        "id": "869d3b27b4cd4767",
+        "type": "join",
+        "z": "1314601862b9807f",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload.data.rgb_color",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 710,
+        "y": 100,
+        "wires": [
+            [
+                "89b4810c21101ccf"
+            ]
+        ]
+    },
+    {
+        "id": "89b4810c21101ccf",
+        "type": "function",
+        "z": "1314601862b9807f",
+        "name": "function 1",
+        "func": "var avgr = 0.5*msg.payload.data.rgb_color[0][0] + 0.5*msg.payload.data.rgb_color[1][0]\nvar avgg = 0.5*msg.payload.data.rgb_color[0][1] + 0.5*msg.payload.data.rgb_color[1][1]\nvar avgb = 0.5*msg.payload.data.rgb_color[0][2] + 0.5*msg.payload.data.rgb_color[1][2]\nmsg.payload.data.rgb_color = [avgr,avgg,avgb]\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 100,
+        "wires": [
+            [
+                "65f02980ca9ddd05",
+                "db72e4b0552551d3"
+            ]
+        ]
+    },
+    {
+        "id": "db72e4b0552551d3",
+        "type": "debug",
+        "z": "1314601862b9807f",
+        "name": "debug 16",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.data.rgb_color",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "db11bbe351294657",
+        "type": "inject",
+        "z": "1314601862b9807f",
+        "d": true,
+        "name": "Every minute",
+        "props": [],
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 120,
+        "y": 460,
+        "wires": [
+            [
+                "7adf563807eb5b71"
+            ]
+        ]
+    },
+    {
+        "id": "dbe14ea1b3a82e62",
+        "type": "api-current-state",
+        "z": "1314601862b9807f",
+        "g": "d37fa4231dd97c20",
+        "name": "Emily",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "home",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "person.emily",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 830,
+        "y": 460,
+        "wires": [
+            [
+                "e4d21d07862fe521"
+            ],
+            [
+                "22a34126a8249305"
+            ]
+        ]
+    },
+    {
+        "id": "910c87f13b42c161",
+        "type": "api-current-state",
+        "z": "1314601862b9807f",
+        "g": "d37fa4231dd97c20",
+        "name": "Rachel",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "home",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "person.rachel",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 840,
+        "y": 540,
+        "wires": [
+            [
+                "9e76f96b6eecc733"
+            ],
+            [
+                "bc0d578bb8feaddc"
+            ]
+        ]
+    },
+    {
+        "id": "9406e5ba318ad634",
+        "type": "api-current-state",
+        "z": "1314601862b9807f",
+        "g": "d37fa4231dd97c20",
+        "name": "Iain",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "home",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "person.iain",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 830,
+        "y": 380,
+        "wires": [
+            [
+                "e73447513906296c"
+            ],
+            [
+                "70783821e02baee4"
+            ]
+        ]
+    },
+    {
+        "id": "e73447513906296c",
+        "type": "api-call-service",
+        "z": "1314601862b9807f",
+        "g": "2d3fc235368e98de",
+        "name": "RLED on",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.leds_red_led"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1020,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "70783821e02baee4",
+        "type": "api-call-service",
+        "z": "1314601862b9807f",
+        "g": "2d3fc235368e98de",
+        "name": "RLED off",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.leds_red_led"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1020,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e4d21d07862fe521",
+        "type": "api-call-service",
+        "z": "1314601862b9807f",
+        "g": "2d3fc235368e98de",
+        "name": "GLED on",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.leds_green_led"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1020,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "22a34126a8249305",
+        "type": "api-call-service",
+        "z": "1314601862b9807f",
+        "g": "2d3fc235368e98de",
+        "name": "GLED off",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.leds_green_led"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1020,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7adf563807eb5b71",
+        "type": "api-current-state",
+        "z": "1314601862b9807f",
+        "g": "6005ba69422d8e54",
+        "name": "Cam home",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "home",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "person.cam",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 290,
+        "y": 460,
+        "wires": [
+            [
+                "0ec8744dedf633af"
+            ],
+            [
+                "019213ebe9f47965"
+            ]
+        ]
+    },
+    {
+        "id": "019213ebe9f47965",
+        "type": "api-call-service",
+        "z": "1314601862b9807f",
+        "name": "LEDs off",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.leds_blue_led",
+            "light.leds_green_led",
+            "light.leds_red_led"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 440,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0ec8744dedf633af",
+        "type": "api-current-state",
+        "z": "1314601862b9807f",
+        "g": "6005ba69422d8e54",
+        "name": "If xbox playing",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "playing",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "media_player.xboxone",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 340,
+        "y": 400,
+        "wires": [
+            [
+                "019213ebe9f47965"
+            ],
+            [
+                "b49b042bef810a65"
+            ]
+        ]
+    },
+    {
+        "id": "b4feddcc6de81c16",
+        "type": "ha-switch",
+        "z": "1314601862b9807f",
+        "name": "Presence leds",
+        "version": 0,
+        "debugenabled": false,
+        "inputs": 0,
+        "outputs": 2,
+        "entityConfig": "d6c668417b6c050e",
+        "enableInput": false,
+        "outputOnStateChange": false,
+        "outputProperties": [
+            {
+                "property": "outputType",
+                "propertyType": "msg",
+                "value": "state change",
+                "valueType": "str"
+            },
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            }
+        ],
+        "x": 110,
+        "y": 400,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "b49b042bef810a65",
+        "type": "api-current-state",
+        "z": "1314601862b9807f",
+        "g": "6005ba69422d8e54",
+        "name": "Toggle Switch",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "on",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "switch.presence_leds",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 480,
+        "y": 460,
+        "wires": [
+            [
+                "a96a59eb8bbfca4e"
+            ],
+            [
+                "019213ebe9f47965"
+            ]
+        ]
+    },
+    {
+        "id": "a96a59eb8bbfca4e",
+        "type": "time-range-switch",
+        "z": "1314601862b9807f",
+        "g": "6005ba69422d8e54",
+        "name": "",
+        "lat": "52.19582",
+        "lon": "-0.90115",
+        "startTime": "7:00",
+        "endTime": "23:00",
+        "startOffset": 0,
+        "endOffset": 0,
+        "x": 650,
+        "y": 460,
+        "wires": [
+            [
+                "9406e5ba318ad634",
+                "dbe14ea1b3a82e62",
+                "910c87f13b42c161"
+            ],
+            [
+                "019213ebe9f47965"
+            ]
+        ]
+    },
+    {
+        "id": "f453b3baf12f727d",
+        "type": "comment",
+        "z": "1314601862b9807f",
+        "name": "Turn on leds connected to esphome for presence detections for Iain, Emily and Rachel",
+        "info": "",
+        "x": 340,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "bc0d578bb8feaddc",
+        "type": "api-call-service",
+        "z": "1314601862b9807f",
+        "g": "2d3fc235368e98de",
+        "name": "BLED off",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.leds_blue_led"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1020,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9e76f96b6eecc733",
+        "type": "api-call-service",
+        "z": "1314601862b9807f",
+        "g": "2d3fc235368e98de",
+        "name": "BLED on",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.leds_blue_led",
+            "light.leds_red_led"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1020,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e0ef22b82661de6a",
+        "type": "api-call-service",
+        "z": "1314601862b9807f",
+        "name": "Hall/landing lights",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [
+            "014678a269f1fe08abd5efc161a261d8",
+            "b1ba1726ad30b364fe3f0d50e9ea4f17"
+        ],
+        "entityId": [],
+        "data": "{\"brightness_pct\":\"100\"}",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 270,
+        "y": 680,
+        "wires": [
+            [
+                "63564923230b6fad"
+            ]
+        ]
+    },
+    {
+        "id": "60fd2ca8199d9a88",
+        "type": "api-call-service",
+        "z": "1314601862b9807f",
+        "name": "Turn on smart plug lounge",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.smart_plug_living_room_socket"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 670,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "23b534bd07b2437d",
+        "type": "api-call-service",
+        "z": "1314601862b9807f",
+        "name": "10% Landing brightness",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [
+            "b1ba1726ad30b364fe3f0d50e9ea4f17"
+        ],
+        "entityId": [],
+        "data": "{\"brightness_pct\":\"10\"} ",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 290,
+        "y": 760,
+        "wires": [
+            [
+                "e2d823dec70c00f2"
+            ]
+        ]
+    },
+    {
+        "id": "593243e00308a374",
+        "type": "api-call-service",
+        "z": "1314601862b9807f",
+        "name": "Landing off",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [
+            "b1ba1726ad30b364fe3f0d50e9ea4f17"
+        ],
+        "entityId": [],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 250,
+        "y": 840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e2d823dec70c00f2",
+        "type": "api-call-service",
+        "z": "1314601862b9807f",
+        "name": "Hall off",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [
+            "014678a269f1fe08abd5efc161a261d8"
+        ],
+        "entityId": [],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 470,
+        "y": 760,
+        "wires": [
+            [
+                "e1e1f9a19e8eb1fa"
+            ]
+        ]
+    },
+    {
+        "id": "dda3721dbdd42cb3",
+        "type": "ha-time",
+        "z": "1314601862b9807f",
+        "name": "Sunset",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 3,
+        "exposeAsEntityConfig": "",
+        "entityId": "sensor.sun_next_setting",
+        "property": "",
+        "offset": "0",
+        "offsetType": "num",
+        "offsetUnits": "minutes",
+        "randomOffset": false,
+        "repeatDaily": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "sunday": true,
+        "monday": true,
+        "tuesday": true,
+        "wednesday": true,
+        "thursday": true,
+        "friday": true,
+        "saturday": true,
+        "x": 90,
+        "y": 680,
+        "wires": [
+            [
+                "e0ef22b82661de6a"
+            ]
+        ]
+    },
+    {
+        "id": "732788482f2419a5",
+        "type": "ha-time",
+        "z": "1314601862b9807f",
+        "name": "11:45PM",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 3,
+        "exposeAsEntityConfig": "",
+        "entityId": "time.11_45",
+        "property": "",
+        "offset": "0",
+        "offsetType": "num",
+        "offsetUnits": "minutes",
+        "randomOffset": false,
+        "repeatDaily": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "sunday": true,
+        "monday": true,
+        "tuesday": true,
+        "wednesday": true,
+        "thursday": true,
+        "friday": true,
+        "saturday": true,
+        "x": 100,
+        "y": 760,
+        "wires": [
+            [
+                "23b534bd07b2437d"
+            ]
+        ]
+    },
+    {
+        "id": "471a0223622beead",
+        "type": "ha-time-entity",
+        "z": "1314601862b9807f",
+        "g": "b57af10ac222b059",
+        "name": "11:45",
+        "version": 0,
+        "debugenabled": false,
+        "inputs": 0,
+        "outputs": 1,
+        "entityConfig": "1df8b22d0b5e3dc5",
+        "mode": "listen",
+        "value": "payload",
+        "valueType": "msg",
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "value"
+            },
+            {
+                "property": "previousValue",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "previousValue"
+            }
+        ],
+        "x": 90,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "29e454fd30ebea95",
+        "type": "ha-time-entity",
+        "z": "1314601862b9807f",
+        "g": "b57af10ac222b059",
+        "name": "1:30",
+        "version": 0,
+        "debugenabled": false,
+        "inputs": 0,
+        "outputs": 1,
+        "entityConfig": "dd1d07e17aa4525d",
+        "mode": "listen",
+        "value": "payload",
+        "valueType": "msg",
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "value"
+            },
+            {
+                "property": "previousValue",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "previousValue"
+            }
+        ],
+        "x": 90,
+        "y": 980,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b00fce8aeda77baa",
+        "type": "ha-time",
+        "z": "1314601862b9807f",
+        "name": "1:30AM",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 3,
+        "exposeAsEntityConfig": "",
+        "entityId": "time.1_30",
+        "property": "",
+        "offset": "0",
+        "offsetType": "num",
+        "offsetUnits": "minutes",
+        "randomOffset": false,
+        "repeatDaily": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "sunday": true,
+        "monday": true,
+        "tuesday": true,
+        "wednesday": true,
+        "thursday": true,
+        "friday": true,
+        "saturday": true,
+        "x": 90,
+        "y": 840,
+        "wires": [
+            [
+                "593243e00308a374"
+            ]
+        ]
+    },
+    {
+        "id": "e1e1f9a19e8eb1fa",
+        "type": "api-call-service",
+        "z": "1314601862b9807f",
+        "name": "Smart plug off",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.smart_plug_living_room_socket"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 620,
+        "y": 760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "63564923230b6fad",
+        "type": "api-current-state",
+        "z": "1314601862b9807f",
+        "name": "Is lounge TV on",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "on",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "media_player.sony_kdl_50w829b",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 460,
+        "y": 680,
+        "wires": [
+            [],
+            [
+                "60fd2ca8199d9a88"
+            ]
+        ]
+    },
+    {
+        "id": "39351ae1c59da18c",
+        "type": "server-state-changed",
+        "z": "1314601862b9807f",
+        "name": "Lounge TV turns on",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "outputs": 2,
+        "exposeAsEntityConfig": "",
+        "entityId": "media_player.sony_kdl_50w829b",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "str",
+        "ifState": "on",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": true,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 110,
+        "y": 1160,
+        "wires": [
+            [
+                "bcbf3cddd4d078b2"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "bcbf3cddd4d078b2",
+        "type": "api-current-state",
+        "z": "1314601862b9807f",
+        "name": "If smart plug lounge on",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "on",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "light.smart_plug_living_room_socket",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 320,
+        "y": 1160,
+        "wires": [
+            [
+                "2647a4e7f74b58ac"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "2647a4e7f74b58ac",
+        "type": "api-call-service",
+        "z": "1314601862b9807f",
+        "name": "Turn off smart plug lounge",
+        "server": "1b0f71ea.e0ea9e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.smart_plug_living_room_socket"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 550,
+        "y": 1160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "90b2cecd65bfdc8e",
+        "type": "comment",
+        "z": "1314601862b9807f",
+        "name": "When Lounge TV turns on then turn off smart plug",
+        "info": "",
+        "x": 210,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "1b0f71ea.e0ea9e",
+        "type": "server",
+        "name": "Home Assistant",
+        "addon": true
+    },
+    {
+        "id": "d6c668417b6c050e",
+        "type": "ha-entity-config",
+        "server": "1b0f71ea.e0ea9e",
+        "deviceConfig": "",
+        "name": "Presence leds",
+        "version": "6",
+        "entityType": "switch",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Presence LEDs"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": "switch"
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "1df8b22d0b5e3dc5",
+        "type": "ha-entity-config",
+        "server": "1b0f71ea.e0ea9e",
+        "deviceConfig": "",
+        "name": "11:45",
+        "version": "6",
+        "entityType": "time",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "11:45"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "dd1d07e17aa4525d",
+        "type": "ha-entity-config",
+        "server": "1b0f71ea.e0ea9e",
+        "deviceConfig": "",
+        "name": "1:30",
+        "version": "6",
+        "entityType": "time",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "1:30"
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    }
+]

@@ -1,0 +1,57 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include includes/automations.yaml
+script: !include includes/scripts.yaml
+scene: !include includes/scenes.yaml
+group: !include includes/groups.yaml
+sensor: !include includes/sensors.yaml
+switch: !include includes/switch.yaml
+
+
+command_line:
+  - sensor:
+      name: CPU Temperature
+      command: "cat /sys/class/thermal/thermal_zone0/temp"
+      unit_of_measurement: "°C"
+      value_template: "{{ value | multiply(0.001) | round(2) }}"
+
+http:
+    ssl_certificate: /ssl/fullchain.pem
+    ssl_key: /ssl/privkey.pem
+    
+    
+google_assistant:
+    project_id: esh-home-assistant-66896
+    service_account: !include SERVICE_ACCOUNT.json
+    report_state: true
+
+device_tracker:
+  - platform: bt_smarthub
+    new_device_defaults:
+      track_new_devices: true
+
+argon40:
+
+wake_on_lan:
+
+powercalc:
+  create_utility_meters: true
+  utility_meter_tariffs:
+    - peak
+    - off-peak
+
+anniversaries:
+  sensors:
+  - name: Emily's Anniversary
+    date: '2023-12-27'
+    
+spotcast:
+  sp_dc: !secret sp_dc
+  sp_key: !secret sp_key
+  

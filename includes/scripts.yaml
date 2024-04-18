@@ -1,0 +1,157 @@
+dishwasher_check:
+  alias: Dishwasher check cam
+  use_blueprint:
+    path: homeassistant/confirmable_notification.yaml
+    input:
+      notify_device: d06bd47f6f0553244ebbb59e2375fc9c
+      title: Dishwasher
+      message: Do you want to cancel the dishwasher
+      confirm_text: 'Yes'
+      dismiss_text: 'No'
+      dismiss_action:
+      - service: automation.turn_off
+        target:
+          entity_id: automation.start_dishwasher
+        data:
+          stop_actions: true
+      - delay:
+          hours: 4
+          minutes: 0
+          seconds: 0
+          milliseconds: 0
+      - service: automation.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: automation.start_dishwasher
+      confirm_action:
+      - service: automation.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: automation.start_dishwasher
+  icon: mdi:dishwasher-alert
+dishwasher_check_iain:
+  alias: Dishwasher check iain
+  use_blueprint:
+    path: homeassistant/confirmable_notification.yaml
+    input:
+      notify_device: 0d6c712d418f74e954aa5d8c8299840c
+      title: Dishwasher
+      message: Do you want to cancel the dishwasher
+      confirm_text: 'Yes'
+      dismiss_text: 'No'
+      dismiss_action:
+      - service: automation.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: automation.start_dishwasher
+      confirm_action:
+      - service: automation.turn_off
+        target:
+          entity_id:
+          - automation.start_dishwasher
+        data:
+          stop_actions: true
+      - delay:
+          hours: 4
+          minutes: 0
+          seconds: 0
+          milliseconds: 0
+      - service: automation.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: automation.start_dishwasher
+  icon: mdi:dishwasher-alert
+volume_up_infrared:
+  alias: Volume Up infrared
+  sequence:
+  - repeat:
+      count: 4
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 0
+          milliseconds: 100
+      - device_id: ef64682712f374557d98304af6a38866
+        domain: button
+        entity_id: 94a43b18dee5b03d3f2411a7fd2e1a7f
+        type: press
+  mode: single
+volume_down_infrared:
+  alias: Volume down infrared
+  sequence:
+  - repeat:
+      count: 4
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 0
+          milliseconds: 100
+      - device_id: ef64682712f374557d98304af6a38866
+        domain: button
+        entity_id: 323bca31956899c61d60b4db0f2ec294
+        type: press
+  mode: single
+mute_infrared:
+  alias: 'mute infrared '
+  sequence:
+  - repeat:
+      count: 4
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 0
+          milliseconds: 100
+      - device_id: ef64682712f374557d98304af6a38866
+        domain: button
+        entity_id: 9dddf47418940abde4c84b059c2a0b23
+        type: press
+  mode: single
+on_off_infrared:
+  alias: on/off infrared
+  sequence:
+  - repeat:
+      count: 4
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 0
+          milliseconds: 100
+      - device_id: ef64682712f374557d98304af6a38866
+        domain: button
+        entity_id: 60a803015ebf609eff39fe82b96110b6
+        type: press
+  mode: single
+togglelights:
+  alias: ToggleLights
+  sequence:
+  - service: light.toggle
+    metadata: {}
+    data: {}
+    target:
+      area_id: bedroom
+  mode: single
+smooth_soul_surround_sound:
+  alias: Red Mode
+  sequence:
+  - service: spotcast.start
+    data:
+      force_playback: false
+      random_song: true
+      repeat: context
+      shuffle: false
+      ignore_fully_played: false
+      spotify_device_id: e112d0ef6e48afa572cf4f922f700d4ac726e9c0
+      uri: spotify:playlist:60FoyGDDGbIqLLs1ZjtTUO?si=975b48fb479a45cf
+  - service: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.red_lights
+  mode: single

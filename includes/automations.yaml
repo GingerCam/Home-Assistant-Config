@@ -1,0 +1,225 @@
+- id: '1692637386562'
+  alias: Fan below 55
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.processor_temperature
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 20
+    below: 55
+  condition: []
+  action:
+  - service: argon40.set_fan_speed
+    data:
+      speed: 0
+  mode: single
+- id: '1692747213786'
+  alias: Tag White 2 is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 1fc5e7f5-0856-46f7-bebc-a91b9efc43b6
+  condition: []
+  action:
+  - service: light.toggle
+    metadata: {}
+    data: {}
+    target:
+      area_id: bedroom
+  mode: single
+- id: '1693148834135'
+  alias: School Alarm
+  description: '6:45'
+  trigger:
+  - platform: time
+    at: 06:50:00
+  condition:
+  - type: is_on
+    condition: device
+    device_id: a17d9bb5dc36f349473177298b2ff140
+    entity_id: 1aea088561e2aa186e13ace29cdb162e
+    domain: binary_sensor
+  action:
+  - service: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      area_id: bedroom
+  mode: single
+- id: '1693153130778'
+  alias: System Backup To Dropbox
+  description: ''
+  trigger:
+  - platform: time
+    at: 03:00:00
+  action:
+  - service: hassio.backup_full
+    data:
+      compressed: true
+      password: Krunker.io2003
+  - delay:
+      hours: 0
+      minutes: 15
+      seconds: 0
+      milliseconds: 0
+  - service: hassio.addon_stdin
+    data:
+      addon: 719b45ef_dropback
+      input: sync
+  mode: single
+- id: '1707477628282'
+  alias: Dishwasher check
+  description: ''
+  trigger:
+  - platform: time
+    at: '21:59:00'
+  condition: []
+  action:
+  - if:
+    - condition: zone
+      entity_id: person.iain
+      zone: zone.home
+    then:
+    - service: script.dishwasher_check_iain
+      data: {}
+    else:
+    - service: script.dishwasher_check
+      data: {}
+  mode: single
+- id: '1708115909511'
+  alias: Wake Computer
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_button.wake_computer
+  condition: []
+  action:
+  - service: wake_on_lan.send_magic_packet
+    data:
+      broadcast_port: 9
+      mac: F8-CA-B8-3C-20-B6
+  mode: single
+- id: '1708164711194'
+  alias: 'Bootup notification '
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - service: notify.mobile_app_cam_s_s23
+    metadata: {}
+    data:
+      message: Home assistant booted up
+      title: HA Start Up
+  mode: single
+- id: '1708431393880'
+  alias: Electricity price
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:30:00
+  condition: []
+  action:
+  - service: input_number.set_value
+    metadata: {}
+    data:
+      value: 0.208
+    target:
+      entity_id: input_number.electricity_price
+  - delay:
+      hours: 7
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: input_number.set_value
+    metadata: {}
+    data:
+      value: 0.426
+    target:
+      entity_id: input_number.electricity_price
+  mode: single
+- id: '1708565967142'
+  alias: Start dishwasher
+  description: starts dishwasher at 00:30
+  trigger:
+  - platform: time
+    at: 00:30:00
+  condition: []
+  action:
+  - device_id: 579b158e13a1ef05f1a9fb29f85caff1
+    domain: button
+    entity_id: b2eaeaf31372759a0c7e111a51240110
+    type: press
+  mode: single
+- id: '1708652575942'
+  alias: Latitude off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.latitude_activewindow
+    to: unavailable
+  condition: []
+  action:
+  - service: input_text.set_value
+    metadata: {}
+    data:
+      value: 'Off'
+    target:
+      entity_id: input_text.latitude_state
+  mode: single
+- id: '1708652626157'
+  alias: Latitude on
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.latitude_activewindow
+    from: unavailable
+  condition: []
+  action:
+  - service: input_text.set_value
+    metadata: {}
+    data:
+      value: 'On'
+    target:
+      entity_id: input_text.latitude_state
+  mode: single
+- id: '1708970071389'
+  alias: Turn off spotify music lights
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.sync_bedroom_speaker
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.sync_bedroom_lights
+  mode: single
+- id: '1708970111995'
+  alias: Turn off speaker spot lights
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.sync_bedroom_lights
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.sync_bedroom_speaker
+  mode: single

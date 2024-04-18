@@ -1,0 +1,7 @@
+  - platform: temperature_feels_like
+    source: weather.forecast_home
+  - platform: temperature_feels_like
+    name: 'Bedroom Feels Like Temperature'
+    source:
+      - sensor.temphum_bedroom_temperature
+      - sensor.temphum_bedroom_humidity
