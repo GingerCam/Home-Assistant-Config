@@ -1,0 +1,102 @@
+title: "Cam's Bedroom"
+path: cams-bedroom
+icon: mdi:bed-double
+cards:
+  - type: "horizontal-stack"
+    cards:
+      - type: "custom:button-card"
+        template: chip_back
+        variables:
+          ulm_chip_back_path: /ui-lovelace-minimalist/0
+      - type: "custom:button-card"
+        template: chip_mdi_icon_state
+        variables:
+          ulm_chip_mdi_icon_state_entity: sensor.cam_s_s23_battery_level
+          ulm_chip_mdi_icon_state_icon: mdi:battery-70
+      - type: "custom:button-card"
+        template: chip_mdi_icon_state
+        variables:
+          ulm_chip_mdi_icon_state_entity: sensor.xps_13_xps_13_battery_charge_remaining_percentage
+          ulm_chip_mdi_icon_state_icon: mdi:battery-70
+      - type: "custom:button-card"
+        template: chip_mdi_icon_state
+        variables:
+          ulm_chip_mdi_icon_state_entity: sensor.cams_ipad_battery_level
+          ulm_chip_mdi_icon_state_icon: mdi:battery-70
+  - type: "custom:button-card"
+    template: "card_scenes_welcome"
+    variables:
+      entity_1:
+        entity_id: "scene.blue_strip_white_bulb"
+        icon: "mdi:lightbulb" #OPTIONAL
+        name: "Normal" #OPTIONAL
+        color: "purple"
+      entity_2:
+        entity_id: "scene.aftercare"
+        icon: "mdi:lightbulb" #OPTIONAL
+        name: "Aftercare" #OPTIONAL
+        color: "pink"
+      entity_3:
+        entity_id: "scene.red_lights"
+        icon: "mdi:bed" #OPTIONAL
+        name: "Red" #OPTIONAL
+        color: "red"
+      entity_4:
+        entity_id: "scene.orange_mood"
+        icon: "mdi:bed" #OPTIONAL
+        name: "Orange" #OPTIONAL
+        color: "red"
+      entity_5:
+        entity_id: "scene.xbox"
+        icon: "mdi:microsoft-xbox" #OPTIONAL
+        name: "Xbox" #OPTIONAL
+        color: "green"
+  - type: "horizontal-stack"
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: light.cams_bedroom_light
+        variables:
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_color: true
+          ulm_card_light_force_background_color: true
+          ulm_card_light_enable_popup: true
+          ulm_card_light_name: "Bulb"
+          ulm_card_light_enable_popup_tap: true
+          ulm_card_light_enable_horizontal: false
+          ulm_card_light_enable_slider_minSet: 1
+          ulm_card_light_icon: mdi:lightbulb
+      - type: "custom:button-card"
+        template: card_light
+        entity: light.bedroom_leds
+        variables:
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_color: true
+          ulm_card_light_force_background_color: true
+          #ulm_card_light_enable_popup: true
+          ulm_card_light_name: "LEDs"
+          ulm_card_light_enable_popup_tap: true
+          ulm_card_light_enable_horizontal: false
+          ulm_card_light_enable_slider_minSet: 1
+          ulm_card_light_icon: mdi:lightbulb  
+
+  - type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.spotify_gingercam
+    variables:
+      ulm_card_media_player_name: Spotify
+      ulm_card_media_player_enable_art: true
+      ulm_card_media_player_enable_controls: true
+      ulm_card_media_player_collapsible: true
+      ulm_card_media_player_enable_popup: true
+  - type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.xboxone
+    variables:
+      ulm_card_media_player_name: Xbox
+      ulm_card_media_player_enable_art: true
+      ulm_card_media_player_enable_controls: true
+      ulm_card_media_player_enable_popup: true
+      ulm_card_media_player_power_button: true
+      ulm_card_media_player_collapsible: true
+      ulm_card_media_player_icon: mdi:microsoft-xbox

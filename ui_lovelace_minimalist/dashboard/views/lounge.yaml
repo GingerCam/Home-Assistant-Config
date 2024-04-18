@@ -1,0 +1,35 @@
+title: Lounge
+path: lounge
+icon: mdi:sofa
+cards:
+  - type: "custom:button-card"
+    template: chip_back
+    variables:
+      ulm_chip_back_path: /ui-lovelace-minimalist/0
+  - type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.bravia_kdl_50w829b
+    variables:
+      ulm_card_media_player_icon: mdi:television
+      ulm_card_media_player_power_button: true
+      ulm_card_media_player_enable_popup: true
+      ulm_card_media_player_name: "Lounge TV"
+  - type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.now_tv_yd007x747650
+    variables:
+      ulm_card_media_player_icon: mdi:television
+      ulm_card_media_player_enable_popup: true
+      ulm_card_media_player_name: "NowTV"
+      ulm_card_media_player_enable_controls: true
+      ulm_card_media_player_enable_art: true
+      ulm_card_media_player_collapsible: true
+  - type: "custom:button-card"
+    template: card_light
+    entity: light.smart_plug_living_room_socket
+    variables:
+      ulm_card_light_enable_color: true
+      ulm_card_light_force_background_color: true
+      ulm_card_light_icon: mdi:power-socket-uk
+      ulm_card_light_name: "Smart Plug"
+           

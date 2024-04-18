@@ -1,0 +1,26 @@
+title: CLock
+path: clock
+icon: mdi:alarm
+cards:
+  - type: "custom:button-card"
+    template: chip_back
+    variables:
+      ulm_chip_back_path: /ui-lovelace-minimalist/0
+  - type: "custom:button-card"
+    template: card_alarm_time
+    entity: switch.morning_alarm
+    variables:
+      ulm_card_alarm_time_datetime: input_datetime.cams_alarm
+      ulm_card_alarm_time_horizontal: false
+      ulm_card_alarm_time_collapse: true
+      ulm_card_alarm_time_icon: mdi:alarm
+      ulm_card_alarm_time_step: 15
+  - type: "custom:button-card"
+    template: card_alarm_time
+    entity: switch.school_alarm
+    variables:
+      ulm_card_alarm_time_datetime: input_datetime.school_alarm
+      ulm_card_alarm_time_horizontal: false
+      ulm_card_alarm_time_collapse: true
+      ulm_card_alarm_time_icon: mdi:alarm
+      ulm_card_alarm_time_step: 15

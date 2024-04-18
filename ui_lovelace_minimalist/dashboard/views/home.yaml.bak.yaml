@@ -1,0 +1,128 @@
+title: "Home"
+path: 0
+icon: "mdi:view-dashboard"
+cards:
+  - type: "custom:button-card"
+    template: "card_esh_welcome"
+    triggers_update: "input_boolean.minimalist"
+    variables:
+      ulm_card_esh_welcome_collapse: input_boolean.minimalist
+      ulm_weather: "weather.openweathermap"
+      ulm_evening: "Good evening"
+      ulm_afternoon: "Good afternoon"
+      ulm_morning: "Good morning"
+      ulm_hello: "Hello"
+      entity_1:
+        nav: "battery"
+        icon: "mdi:battery-70"
+        name: "Battery"
+        color: "green"
+      entity_2:
+        nav: "medias"
+        icon: "mdi:multimedia"
+        name: Media
+        color: "blue"
+      entity_3:
+        nav: "lights"
+        icon: "mdi:lightbulb"
+        name: "Lights"
+        color: "yellow"
+      entity_4:
+        nav: "system"
+        icon: "mdi:server"
+        name: System
+        color: "purple"
+      entity_5:
+        nav: "switches"
+        icon: "mdi:toggle-switch"
+        name: Switch
+        color: "red"
+  - type: "horizontal-stack"
+    cards:
+      - type: "custom:button-card"
+        template: card_person_info
+        variables:
+          ulm_card_person_entity: person.cam
+          ulm_card_person_use_entity_picture: true
+          ulm_card_person_zone1: zone.school
+          ulm_card_person_zone2: zone.emily_s
+          ulm_multiline: true
+          #ulm_card_person_driving_entity: binary_sensor.lee_in_car
+          #ulm_card_person_commute_entity: sensor.uw_commute
+          #ulm_card_person_commute_icon: mdi:bus
+          ulm_card_person_battery_entity: sensor.cam_s_s23_battery_level
+          ulm_card_person_battery_state_entity: sensor.cam_s_s23_battery_state
+      - type: "custom:button-card"
+        template: card_person_info
+        variables:
+          ulm_card_person_entity: person.iain
+          ulm_card_person_use_entity_picture: true
+          ulm_card_person_zone1: zone.tesco
+          ulm_card_person_zone2: zone.gym
+          ulm_multiline: true
+          #ulm_card_person_driving_entity: binary_sensor.lee_in_car
+          #ulm_card_person_commute_entity: sensor.uw_commute
+          #ulm_card_person_commute_icon: mdi:bus
+          ulm_card_person_battery_entity: sensor.iains_12_battery_level
+          ulm_card_person_battery_state_entity: sensor.iains_12_battery_state
+  - type: "custom:button-card"
+    template: card_title
+    name: Rooms
+  - type: "vertical-stack"
+    cards:
+      - type: "horizontal-stack"
+        cards:
+          - type: "custom:button-card"
+            template:
+              - card_esh_room
+              - yellow_on
+            name: Kitchen
+            entity: sensor.thermostat_1_state
+            icon: mdi:faucet-variant
+            tap_action:
+              action: navigate
+              navigation_path: "kitchen"
+            variables:
+              ulm_custom_card_esh_room_climate_entity: climate.thermostat_1
+            label: '[[[ return states["sensor.thermostat_1_current_temperature"].state + "°C" ]]]'
+          - type: "custom:button-card"
+            template:
+              - card_esh_room
+              - yellow_on
+            name: Cam's Bedroom
+            entity: light.bedroom_lights
+            icon: mdi:bed-king
+            tap_action:
+              action: navigate
+              navigation_path: "cams-bedroom"
+            variables:
+              ulm_custom_card_esh_room_light_entity: light.bedroom_lights
+              ulm_card_dynamic_color: true
+      - type: "horizontal-stack"
+        cards:
+          - type: "custom:button-card"
+            template:
+              - card_esh_room
+              - yellow_on
+            name: Office
+            entity: light.hall
+            icon: mdi:chair-rolling
+            tap_action:
+              action: navigate
+              navigation_path: "office"
+            variables:
+              ulm_custom_card_esh_room_light_entity: light.hall
+              ulm_card_dynamic_color: true
+          - type: "custom:button-card"
+            template:
+              - card_esh_room
+              - yellow_on
+            name: Lounge
+            entity: light.smart_plug_living_room_socket
+            icon: mdi:sofa
+            tap_action:
+              action: navigate
+              navigation_path: "lounge"
+            variables:
+              ulm_custom_card_esh_room_light_entity: light.smart_plug_living_room_socket
+              ulm_card_dynamic_color: true

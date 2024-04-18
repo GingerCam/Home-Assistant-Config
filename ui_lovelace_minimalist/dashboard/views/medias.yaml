@@ -1,0 +1,62 @@
+title: "Media"
+path: medias
+icon: mdi:multimedia
+cards:
+  - type: "custom:button-card"
+    template: chip_back
+    variables:
+      ulm_chip_back_path: /ui-lovelace-minimalist/0
+  - type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.spotify_gingercam
+    variables:
+      ulm_card_media_player_name: Spotify
+      ulm_card_media_player_enable_art: true
+      ulm_card_media_player_enable_controls: true
+      ulm_card_media_player_collapsible: true
+      ulm_card_media_player_enable_popup: true
+  - type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.bravia_kdl_50w829b
+    variables:  
+      ulm_card_media_player_name: Lounge TV
+      ulm_card_media_player_enable_art: true
+      ulm_card_media_player_enable_controls: true
+      ulm_card_media_player_collapsible: true
+      ulm_card_media_player_enable_popup: true
+  - type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.cams_speaker
+    variables:
+      ulm_card_media_player_name: Cam's Speaker
+      ulm_card_media_player_enable_art: true
+      ulm_card_media_player_enable_controls: true
+      ulm_card_media_player_collapsible: true
+      ulm_card_media_player_enable_popup: true
+  - type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.chromecast
+    variables:
+      ulm_card_media_player_name: Chromecast
+      ulm_card_media_player_enable_art: true
+      ulm_card_media_player_enable_controls: true
+      ulm_card_media_player_collapsible: true
+      ulm_card_media_player_enable_popup: true
+  - type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.family_room
+    variables:
+      ulm_card_media_player_name: Family Room
+      ulm_card_media_player_enable_art: true
+      ulm_card_media_player_enable_controls: true
+      ulm_card_media_player_collapsible: true
+      ulm_card_media_player_enable_popup: true
+  - type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.now_tv_yd007x747650
+    variables:
+      ulm_card_media_player_name: Now TV
+      ulm_card_media_player_enable_art: true
+      ulm_card_media_player_enable_controls: true
+      ulm_card_media_player_collapsible: true
+      ulm_card_media_player_enable_popup: true
