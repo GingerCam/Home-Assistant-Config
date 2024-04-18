@@ -1,0 +1,64 @@
+title: System
+path: system
+icon: "mdi:server"
+cards:
+  - type: "custom:button-card"
+    template: chip_back
+  - type: "horizontal-stack"
+    cards:
+      - type: "custom:button-card"
+        template: card_graph
+        entity: sensor.cpu_temperature
+        variables:
+          ulm_card_graph_color: "var(--google-blue)"
+          ulm_card_graph_name: CPU Temp
+          ulm_card_graph_entity: sensor.cpu_temperature
+          ulm_card_graph_type: fill
+          ulm_card_graph_hours: 24
+          ulm_card_graph_group_by: interval
+          ulm_card_graph_line_width: 5
+          ulm_card_graph_icon: mdi:thermometer
+      - type: "custom:button-card"
+        template: card_graph
+        entity: sensor.memory_use_percent
+        variables:
+          ulm_card_graph_color: "var(--google-blue)"
+          ulm_card_graph_name: RAM usage
+          ulm_card_graph_entity: sensor.memory_use_percent
+          ulm_card_graph_type: fill
+          ulm_card_graph_hours: 24
+          ulm_card_graph_group_by: interval
+          ulm_card_graph_line_width: 5
+          ulm_card_graph_icon: mdi:memory
+  - type: "horizontal-stack"
+    cards:
+      - type: custom:button-card
+        template: card_neekster_update
+        entity: update.home_assistant_core_update
+        variables:
+          ulm_card_neekster_update_enable_controls: true
+          ulm_card_neekster_update_collapsible: true
+          ulm_card_neekster_update_horizontal: true
+          ulm_card_neekster_update_narrow_buttons: true
+      - type: custom:button-card
+        template: card_neekster_update
+        entity: update.music_assistant_beta_update
+        variables:
+          ulm_card_neekster_update_enable_controls: true
+          ulm_card_neekster_update_collapsible: true
+          ulm_card_neekster_update_horizontal: true
+          ulm_card_neekster_update_narrow_buttons: true
+  - type: "custom:button-card"
+    template: card_graph
+    entity: sensor.disk_use_percent_config
+    variables:
+      ulm_card_graph_color: "var(--google-blue)"
+      ulm_card_graph_name: Disk Usage
+      ulm_card_graph_entity: sensor.disk_use_percent_config
+      ulm_card_graph_type: fill
+      ulm_card_graph_hours: 24
+      ulm_card_graph_group_by: interval
+      ulm_card_graph_line_width: 5
+      ulm_card_graph_icon: mdi:harddisk
+
+      

@@ -1,0 +1,55 @@
+title: Switches
+path: switches
+icon: "mdi:toggle-switch"
+cards:
+  - type: "custom:button-card"
+    template: chip_back
+    variables:
+      ulm_chip_back_path: /ui-lovelace-minimalist/0
+  - type: "horizontal-stack"
+    cards:
+      - type: 'custom:button-card'
+        template: card_input_boolean
+        entity: switch.red_mode
+        variables:
+          ulm_card_input_boolean_name: Red Mode
+          ulm_card_input_boolean_color: red
+          ulm_card_input_boolean_icon: mdi:bed
+      - type: 'custom:button-card'
+        template: card_input_boolean
+        entity: switch.waiting_for_someone
+        variables:
+          ulm_card_input_boolean_name: Wait for someone
+          ulm_card_input_boolean_icon: mdi:account-alert
+
+  - type: "horizontal-stack"
+    cards:
+      - type: 'custom:button-card'
+        template: card_input_boolean
+        entity: switch.sleep_mode
+        variables:
+          ulm_card_input_boolean_name: Sleep mode
+          ulm_card_input_boolean_icon: mdi:bed
+      - type: 'custom:button-card'
+        template: card_input_boolean
+        entity: switch.sleep_lights
+        variables:
+          ulm_card_input_boolean_name: Sleep Lights
+          ulm_card_input_boolean_icon: mdi:lightbulb
+  - type: "horizontal-stack"
+    cards:
+      - type: 'custom:button-card'
+        template: card_input_boolean
+        entity: switch.speaker_artist_skip
+        variables:
+          ulm_card_input_boolean_name: Spotify Artist Skip
+          ulm_card_input_boolean_icon: mdi:spotify
+  - type: "horizontal-stack"
+    cards:
+      - type: 'custom:button-card'
+        template: card_input_boolean
+        entity: switch.presence_leds
+        variables:
+          ulm_card_input_boolean_name: Presence LEDs
+          ulm_card_input_boolean_icon: mdi:led-variant-outline
+            
