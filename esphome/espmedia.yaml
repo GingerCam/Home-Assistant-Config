@@ -7,7 +7,7 @@ esphome:
       - wait_until:
           condition:
             api.connected:
-      - display.page.show: page3
+      - display.page.show: page2
 
   on_shutdown:
     then:
@@ -37,7 +37,8 @@ ota:
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
-  fast_connect: true 
+  fast_connect: true
+  output_power: 8.5
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
@@ -49,6 +50,7 @@ captive_portal:
 i2c:
   sda: D2
   scl: D1
+  frequency: 800kHz
 
 time:
   - platform: homeassistant
@@ -63,8 +65,9 @@ script:
     then:
       - delay: 30s  
       - display.page.show: page1
-      - delay: 45s
+      - delay: 10s
       - display.page.show: page4
+      - delay: 3s
       - lambda: |-
           id(oled_display).turn_off();
 
@@ -163,7 +166,15 @@ binary_sensor:
     internal: true 
     on_press: 
       then:
-        #- script.execute: auto_sleep_manager
+        - script.execute: auto_sleep_manager
+        - if:
+            condition:
+              display.is_displaying_page: page3
+            then:
+              - homeassistant.service:
+                 service: media_player.media_play_pause
+                 data_template:
+                   entity_id: "${media}"
         - if:
             condition:
               display.is_displaying_page: page2
@@ -181,14 +192,7 @@ binary_sensor:
               - lambda: |-
                   id(oled_display).turn_on();
               - display.page.show: page3
-        - if:
-            condition:
-              display.is_displaying_page: page3
-            then:
-              - homeassistant.service:
-                 service: media_player.media_play_pause
-                 data_template:
-                   entity_id: "${media}"
+
   - platform: gpio
     name: "Next track"
     pin:
@@ -200,7 +204,15 @@ binary_sensor:
     internal: true
     on_press:
       then:
-        #- script.execute: auto_sleep_manager
+        - script.execute: auto_sleep_manager
+        - if:
+           condition:
+             display.is_displaying_page: page3
+           then:
+             - homeassistant.service:
+                service: media_player.media_next_track
+                data_template:
+                  entity_id: "${media}"
         - if:
             condition:
               display.is_displaying_page: page2
@@ -218,14 +230,7 @@ binary_sensor:
               - lambda: |-
                   id(oled_display).turn_on();
               - display.page.show: page3
-        - if:
-           condition:
-             display.is_displaying_page: page3
-           then:
-             - homeassistant.service:
-                service: media_player.media_next_track
-                data_template:
-                  entity_id: "${media}"
+
   - platform: gpio
     name: "Previous track"
     pin:
@@ -237,7 +242,15 @@ binary_sensor:
     internal: true
     on_press:
       then:
-        #- script.execute: auto_sleep_manager
+        - script.execute: auto_sleep_manager
+        - if:
+            condition:
+              display.is_displaying_page: page3
+            then: 
+              - homeassistant.service:
+                 service: media_player.media_previous_track
+                 data_template:
+                   entity_id: "${media}"
         - if:
             condition:
               display.is_displaying_page: page2
@@ -255,17 +268,6 @@ binary_sensor:
               display.is_displaying_page: page1
             then:
               - display.page.show: page3
-        - if:
-            condition:
-              display.is_displaying_page: page3
-            then: 
-              - homeassistant.service:
-                 service: media_player.media_previous_track
-                 data_template:
-                   entity_id: "${media}"
-        
-    
-
 
 display:
 
@@ -274,7 +276,336 @@ display:
     address: 0x3C
     id: oled_display
     contrast: 65%
-    update_interval: 2s
+    update_interval: 1s
+    pages:
+############################# INITIAL BLANK PAGE ###############################        
+      - id: page1
+        lambda: |-
+          it.printf(64, 32, id(media_artist_font), TextAlign::TOP_CENTER, "ESPMedia");
+      - id: page2
+        lambda: |-
+          if (id(signal_strength).state > -50)    
+          { it.printf(6, 0, id(wifi_battery_font),TextAlign::TOP_CENTER, "󰤨"); } 
+          else{
+          if (id(signal_strength).state > -60) 
+          { it.printf(6, 0, id(wifi_battery_font),TextAlign::TOP_CENTER, "󰤥"); } 
+          else{
+          if (id(signal_strength).state > -70) 
+          { it.printf(6, 0, id(wifi_battery_font),TextAlign::TOP_CENTER, "󰤢"); }
+          else{
+          if (id(signal_strength).state > -80) 
+          { it.printf(6, 0, id(wifi_battery_font),TextAlign::TOP_CENTER, "󰤟"); }
+          else{
+          if (id(signal_strength).state > -90) 
+          { it.printf(6, 0, id(wifi_battery_font),TextAlign::TOP_CENTER, "󰤯"); }
+            
+          }}}}
+          // Time
+          it.strftime(0, 60, id(clock_font), TextAlign::BASELINE_LEFT, "%H:%M", id(esptime).now());
+      - id: page3
+        lambda: |-
+          if (id(media_title).has_state()) {
+           it.printf(64, 0, id(media_title_font),TextAlign::TOP_CENTER, "%s",to_string(id(media_title).state).c_str());
+           it.printf(64, 16, id(media_artist_font),TextAlign::TOP_CENTER, "%s",to_string(id(media_artist).state).c_str());
+           
+           it.rectangle(15, 33, 98, 5);
+           it.filled_rectangle(15, 33, (id(media_volume).state*98), 5);
+            
+           it.printf(26, 52, id(media_font),TextAlign::CENTER, "󰙤");
+           it.printf(102, 52, id(media_font),TextAlign::CENTER, "󰙢");
+           if(id(media_status).state == "playing")
+           {
+            it.printf(64, 52, id(media_font),TextAlign::CENTER, "󰏦");
+           }
+          else
+          {
+           it.printf(64, 52, id(media_font),TextAlign::CENTER, "󰐍");
+           }
+          }    
+
+
+################################# BOOT PAGE ####################################               
+      - id: page4
+        lambda: |-
+          it.printf(64, 32, id(media_artist_font), TextAlign::TOP_CENTER, "Sleeping...");   esphome:
+  name: espmedia
+  friendly_name: ESPMedia
+
+  on_boot:
+    then:
+      - wait_until:
+          condition:
+            api.connected:
+      - display.page.show: page2
+
+  on_shutdown:
+    then:
+      - lambda: |-
+          id(oled_display).turn_off();
+
+substitutions:
+#Media player entity
+  media: media_player.spotify_gingercam
+
+  scenes: input_select.scenes
+
+esp8266:
+  board: nodemcuv2
+
+logger:
+  logs:
+    component: ERROR
+
+api:
+  encryption:
+    key: !secret api_key_espmedia
+
+ota:
+  password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  fast_connect: true
+  output_power: 8.5
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "ESPmedia Fallback Hotspot"
+    password: "espmedia"
+
+captive_portal:
+
+i2c:
+  sda: D2
+  scl: D1
+  frequency: 800kHz
+
+time:
+  - platform: homeassistant
+    id: esptime
+    timezone: Europe/London
+
+script:
+  #Auto sleep - sleeps the device if no button press for a while
+  #Change the delay to adjust the cooldown time
+  - id: auto_sleep_manager
+    mode: restart
+    then:
+      - delay: 30s  
+      - display.page.show: page1
+      - delay: 10s
+      - display.page.show: page4
+      - delay: 3s
+      - lambda: |-
+          id(oled_display).turn_off();
+
+sensor:
+
+  - platform: wifi_signal
+    name: "ESPMedia WiFi Signal"
+    id: signal_strength
+    update_interval: 30s
+
+  - platform: homeassistant
+    id: media_volume
+    entity_id: "${media}"
+    attribute: volume_level
+    internal: true
+
+text_sensor:
+    
+  - platform: homeassistant
+    id: media_title
+    entity_id: "${media}"
+    attribute: media_title
+    internal: true
+
+  - platform: homeassistant
+    id: media_artist
+    entity_id: "${media}"
+    attribute: media_artist
+    internal: true
+
+
+  - platform: homeassistant
+    id: media_status
+    entity_id: "${media}"
+    internal: true 
+
+
+font:
+
+#media artist font
+  - file: 'fonts/Tahoma Regular font.ttf'
+    id: media_artist_font
+    size: 12
+    glyphs: ['!', '"', '%', '(' ,')', '+', '=', ',', '-', '_', '.' ,':' ,'°' , '0','1','2','3','4','5', 
+             '6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S', 
+             'T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p',
+             'q','r','s','t','u','v','w','x','y','z','@','&','?','<','>',' ']
+            
+#media title font            
+  - file: 'fonts/Tahoma Regular font.ttf'
+    id: media_title_font
+    size: 14
+    glyphs: ['!', '"', '%', '(' ,')', '+', '=', ',', '-', '_', '.' ,':' ,'°' , '0','1','2','3','4','5', 
+             '6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S', 
+             'T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p',
+             'q','r','s','t','u','v','w','x','y','z','@','&','?','<','>',' ']
+
+#clock font            
+  - file: 'fonts/BebasNeue-Regular.ttf'
+    id: clock_font
+    size: 48
+
+#media contols font
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id: media_font
+    size: 24
+    glyphs: [
+      # media
+      '󰏦', #pause
+      '󰐍', #play
+      '󰙢', #next
+      '󰙤'  #back
+      ]
+
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id: wifi_battery_font
+    size: 14
+    glyphs: [
+      # Battery & wifi      
+      "󰤯", # wifi - 0
+      "󰤟", # wifi - 1 
+      "󰤢", # wifi - 2
+      "󰤥", # wifi - 3
+      "󰤨", # wifi - 4     
+    ]  
+
+binary_sensor:
+  - platform: gpio
+    name: "Play/Pause"
+    pin:
+      number: D5
+      inverted: true
+      mode:
+        input: true
+        pullup: true    
+    internal: true 
+    on_press: 
+      then:
+        - script.execute: auto_sleep_manager
+        - if:
+            condition:
+              display.is_displaying_page: page3
+            then:
+              - homeassistant.service:
+                 service: media_player.media_play_pause
+                 data_template:
+                   entity_id: "${media}"
+        - if:
+            condition:
+              display.is_displaying_page: page2
+            then:
+              - display.page.show: page3
+        - if:
+            condition:
+              display.is_displaying_page: page1
+            then:
+              - display.page.show: page3
+        - if:
+            condition:
+              display.is_displaying_page: page4
+            then:
+              - lambda: |-
+                  id(oled_display).turn_on();
+              - display.page.show: page3
+
+  - platform: gpio
+    name: "Next track"
+    pin:
+      number: D6
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    internal: true
+    on_press:
+      then:
+        - script.execute: auto_sleep_manager
+        - if:
+           condition:
+             display.is_displaying_page: page3
+           then:
+             - homeassistant.service:
+                service: media_player.media_next_track
+                data_template:
+                  entity_id: "${media}"
+        - if:
+            condition:
+              display.is_displaying_page: page2
+            then:
+              - display.page.show: page3
+        - if:
+            condition:
+              display.is_displaying_page: page1
+            then:
+              - display.page.show: page3
+        - if:
+            condition:
+              display.is_displaying_page: page4
+            then:
+              - lambda: |-
+                  id(oled_display).turn_on();
+              - display.page.show: page3
+
+  - platform: gpio
+    name: "Previous track"
+    pin:
+      number: D7
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    internal: true
+    on_press:
+      then:
+        - script.execute: auto_sleep_manager
+        - if:
+            condition:
+              display.is_displaying_page: page3
+            then: 
+              - homeassistant.service:
+                 service: media_player.media_previous_track
+                 data_template:
+                   entity_id: "${media}"
+        - if:
+            condition:
+              display.is_displaying_page: page2
+            then:
+              - display.page.show: page3
+        - if:
+            condition:
+              display.is_displaying_page: page4
+            then:
+              - lambda: |-
+                  id(oled_display).turn_on();
+              - display.page.show: page3
+        - if:
+            condition:
+              display.is_displaying_page: page1
+            then:
+              - display.page.show: page3
+
+display:
+
+  - platform: ssd1306_i2c
+    model: "SH1106 128x64"
+    address: 0x3C
+    id: oled_display
+    contrast: 65%
+    update_interval: 1s
     pages:
 ############################# INITIAL BLANK PAGE ###############################        
       - id: page1
