@@ -1,12 +1,18 @@
 esphome:
-  name: esp-media
-  friendly_name: ESP Media
+  name: espmedia
+  friendly_name: ESPMedia
+
   on_boot:
     then:
       - wait_until:
           condition:
             api.connected:
       - display.page.show: page3
+
+  on_shutdown:
+    then:
+      - lambda: |-
+          id(oled_display).turn_off();
 
 substitutions:
 #Media player entity
@@ -21,7 +27,7 @@ logger:
 
 api:
   encryption:
-    key: "Kd/so141Wl9cjSVOcRBIfyRzPmzyF/zXYkZojSO3Zt4="
+    key: !secret api_key_espmedia
 
 ota:
   password: !secret ota_password
@@ -29,10 +35,11 @@ ota:
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
+  fast_connect: true 
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
-    ssid: "espmedia Fallback Hotspot"
+    ssid: "ESPmedia Fallback Hotspot"
     password: "espmedia"
 
 captive_portal:
@@ -52,8 +59,11 @@ script:
   - id: auto_sleep_manager
     mode: restart
     then:
-      - delay: 180s  
-      - display.page.show: page2
+      - delay: 30s  
+      - display.page.show: page1
+      - delay: 45s
+      - lambda: |-
+          id(oled_display).turn_off();
 
 sensor:
 
@@ -155,6 +165,11 @@ binary_sensor:
               - display.page.show: page3
         - if:
             condition:
+              display.is_displaying_page: page1
+            then:
+              - display.page.show: page3
+        - if:
+            condition:
               display.is_displaying_page: page3
             then:
               - homeassistant.service:
@@ -173,6 +188,11 @@ binary_sensor:
         - if:
             condition:
               display.is_displaying_page: page2
+            then:
+              - display.page.show: page3
+        - if:
+            condition:
+              display.is_displaying_page: page1
             then:
               - display.page.show: page3
         - if:
@@ -195,6 +215,11 @@ binary_sensor:
         - if:
             condition:
               display.is_displaying_page: page2
+            then:
+              - display.page.show: page3
+        - if:
+            condition:
+              display.is_displaying_page: page1
             then:
               - display.page.show: page3
         - if:
