@@ -158,55 +158,55 @@ binary_sensor:
               display.is_displaying_page: page3
             then:
               - homeassistant.service:
-                service: media_player.media_play_pause
-                data_template:
-                  entity_id: "${media}"
-    - platform: gpio
-      name: "Next track"
-      pin:
-        number: D6
-        inverted: true
-      internal: true
-      on_press:
-        then:
-          - script.execute: auto_sleep_manager
-          - if:
-             condition:
-               display.is_displaying_page: page2
-              then:
-                - display.page.show: page3
-          - if:
+                 service: media_player.media_play_pause
+                 data_template:
+                   entity_id: "${media}"
+  - platform: gpio
+    name: "Next track"
+    pin:
+      number: D6
+      inverted: true
+    internal: true
+    on_press:
+      then:
+        - script.execute: auto_sleep_manager
+        - if:
             condition:
-              display.is_displaying_page: page 3
+              display.is_displaying_page: page2
             then:
-              - homeassistant.service:
+              - display.page.show: page3
+        - if:
+           condition:
+             display.is_displaying_page: page3
+           then:
+             - homeassistant.service:
                 service: media_player.media_next_track
                 data_template:
                   entity_id: "${media}"
-    - platform: gpio
-      name: "Previous track"
-      pin:
-        number: D7
-        inverted: true
-      internal: true
-      on_press:
-        then:
-          - script.execute: auto_sleep_manager
-          - if:
-              condition:
-                display.is_displaying_page: page2
-              then:
-                - display.page.show: page3
-          - if:
-              condition:
-                display.is_showing_page: page3
-              then: 
-                - homeassistant.service:
-                  service: media_player.media_previous_track
-                  data_template:
-                    entity_id: "${media}"
-          
-      
+  - platform: gpio
+    name: "Previous track"
+    pin:
+      number: D7
+      inverted: true
+    internal: true
+    on_press:
+      then:
+        - script.execute: auto_sleep_manager
+        - if:
+            condition:
+              display.is_displaying_page: page2
+            then:
+              - display.page.show: page3
+        - if:
+            condition:
+              display.is_displaying_page: page3
+            then: 
+              - homeassistant.service:
+                 service: media_player.media_previous_track
+                 data_template:
+                   entity_id: "${media}"
+        
+    
 
 
 display:
