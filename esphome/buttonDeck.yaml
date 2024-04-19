@@ -1,6 +1,36 @@
 esphome:
   name: button-deck
   friendly_name: Button Deck
+  on_boot:
+   then:
+    - wait_until:
+        condition:
+          api.connected: 
+    - display.page.show: page1
+
+substitutions:
+#Edit the substitutions to match your setup
+
+#Home page
+  temprature_sensor: sensor.thermostat_1_current_temperature 
+  weather: weather.openweathermap
+
+  scenes: input_select.scenes
+  
+#Lights
+#Entity ids for lights
+  light_1: light.bedroom_lights 
+  light_2: light.hall
+  light_3: light.landing
+  light_4: light.smart_plug_living_room_socket
+#Titles for lights
+  light_1_title: Bedroom 
+  light_2_title: Hall 
+  light_3_title: Landing 
+  light_4_title: Lounge    
+  
+#Media
+  media: media_player.spotify_gingercam
 
 esp8266:
   board: nodemcuv2
@@ -27,23 +57,84 @@ wifi:
 
 captive_portal:
 
+globals:
+ - id: select_pos
+   type: int
+   restore_value: yes
+   initial_value: '0'
+  
+i2c:
+  sda: D2
+  scl: D1
+  scan: false
+
 binary_sensor:
   - platform: gpio
     pin: 
-      number: D1
+      number: D3
       inverted: true
       mode:
         input: true
         pullup: true
-    name: "deckButton1"
+    internal: true
+    name: "up"
+    on_press:
+     then:
+      - if:
+          condition:
+            display.is_displaying_page: page3
+          then:
+            - lambda: |-
+                if (id(select_pos) <= 0) 
+                {
+                 id(select_pos) = 3;
+                }          
+                else
+                {
+                  id(select_pos) -= 1;
+                }    
+      - if:
+          condition:
+            display.is_displaying_page: page4
+          then:
+           - homeassistant.service:
+              service: media_player.volume_up
+              data_template:
+                entity_id: "${media}"
+  
   - platform: gpio
     pin: 
-      number: D2
+      number: D4
       inverted: true
       mode:
         input: true
         pullup: true
-    name: "deckButton2"
+    name: "down"
+    internal: true
+    on_press:
+     then:
+      - if:
+          condition:
+            display.is_displaying_page: page4
+          then:
+           - homeassistant.service:
+              service: media_player.volume_down
+              data_template:
+                entity_id: "${media}"
+      - if:
+          condition:
+            display.is_displaying_page: page3
+          then:
+            - lambda: |-
+                if (id(select_pos) >= 3) 
+                {
+                 id(select_pos) = 0;
+                }          
+                else
+                {
+                  id(select_pos) += 1;
+                }
+
   - platform: gpio
     pin: 
       number: D5
@@ -51,7 +142,27 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: "deckButton3"
+    name: "left"
+    internal: true
+    on_press:
+     then:
+      - if:
+          condition:
+            display.is_displaying_page: page2
+          then:
+           - homeassistant.service:
+              service: input_select.select_previous
+              data_template:
+                entity_id: "${scenes}"
+      - if:
+          condition:
+            display.is_displaying_page: page4
+          then:
+           - homeassistant.service:
+              service: media_player.media_next_previous
+              data_template:
+                entity_id: "${media}"
+
   - platform: gpio
     pin: 
       number: D6
@@ -59,20 +170,478 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: "deckButton4"
+    name: "right"
+    internal: true
+    on_press:
+     then:
+      - if:
+          condition:
+            display.is_displaying_page: page2
+          then:
+           - homeassistant.service:
+              service: input_select.select_next
+              data_template:
+                entity_id: "${scenes}"
+      - if:
+          condition:
+            display.is_displaying_page: page4
+          then:
+           - homeassistant.service:
+              service: media_player.media_next_track
+              data_template:
+                entity_id: "${media}"
 
-light:
-  - platform: monochromatic
-    name: "Red led"
-    output: output_red
-  - platform: monochromatic
-    name: "Green led"
-    output: output_green
+  - platform: gpio
+    name: "Ok"
+    pin:
+      number: D7
+      inverted: true
+      mode:
+        input: true
+        pullup: true    
+    internal: true
+    on_press:
+     then:
+      - if:
+          condition:
+            display.is_displaying_page: page4
+          then:
+           - homeassistant.service:
+              service: media_player.media_play_pause
+              data_template:
+                entity_id: "${media}"
+          
+      - if:
+          condition:
+            display.is_displaying_page: page3
+          then:
+           - if:
+              condition:
+                - lambda: |-
+                    if (id(select_pos) ==0) { return 1;}  else {return 0;}
+              then:      
+               - homeassistant.service:
+                  service: light.toggle
+                  data_template:
+                    entity_id: "${light_1}"
+           - if:
+              condition:
+                - lambda: |-
+                    if (id(select_pos) ==1) { return 1;}  else {return 0;}
+              then:      
+               - homeassistant.service:
+                  service: light.toggle
+                  data_template:
+                    entity_id: "${light_2}"
+           - if:
+              condition:
+                - lambda: |-
+                    if (id(select_pos) ==2) { return 1;}  else {return 0;}
+              then:      
+               - homeassistant.service:
+                  service: light.toggle
+                  data_template:
+                    entity_id: "${light_3}"             
+           - if:
+              condition:
+                - lambda: |-
+                    if (id(select_pos) ==3) { return 1;}  else {return 0;}
+              then:      
+               - homeassistant.service:
+                  service: light.toggle
+                  data_template:
+                    entity_id: "${light_4}"
 
-output:
-  - platform: esp8266_pwm
-    id: output_red
-    pin: D7
-  - platform: esp8266_pwm
-    id: output_green
-    pin: D8
+  - platform: gpio
+    name: home
+    id: home_button
+    pin:
+      number: D8
+      inverted: true
+      mode:
+        input: true
+        pullup: true    
+    internal: true
+    on_click:
+    - min_length: 10ms
+      max_length: 800ms
+      then:
+        - display.page.show: page2
+
+  - platform: gpio
+    name: lights
+    id: lights_button
+    pin:
+      number: GPIO9
+      inverted: true
+      mode:
+        input: true
+        pullup: true    
+    internal: true
+    on_press:
+      then:
+        - display.page.show: page3
+
+  - platform: gpio
+    name: media
+    id: media_button
+    pin:
+      number: GPIO10
+      inverted: true
+      mode:
+        input: true
+        pullup: true    
+    internal: true
+    on_press:
+      then:
+        - display.page.show: page4          
+
+  - platform: status
+    name: "Home Remote Status"   
+
+  #Lights and media from home assistant     
+  - platform: homeassistant
+    id: light_1
+    entity_id: "${light_1}"
+    internal: true    
+
+  - platform: homeassistant
+    id: light_2
+    entity_id: "${light_2}"
+    internal: true  
+
+  - platform: homeassistant
+    id: light_3
+    entity_id: "${light_3}"
+    internal: true  
+
+  - platform: homeassistant
+    id: light_4
+    entity_id: "${light_4}"
+    internal: true  
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FONTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<#   
+font:
+
+#media artist font
+  - file: 'fonts/Tahoma Regular font.ttf'
+    id: media_artist_font
+    size: 12
+    glyphs: ['!', '"', '%', '(' ,')', '+', '=', ',', '-', '_', '.' ,':' ,'°' , '0','1','2','3','4','5', 
+             '6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S', 
+             'T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p',
+             'q','r','s','t','u','v','w','x','y','z','@','&','?','<','>',' ']
+            
+#media title font            
+  - file: 'fonts/Tahoma Regular font.ttf'
+    id: media_title_font
+    size: 14
+    glyphs: ['!', '"', '%', '(' ,')', '+', '=', ',', '-', '_', '.' ,':' ,'°' , '0','1','2','3','4','5', 
+             '6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S', 
+             'T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p',
+             'q','r','s','t','u','v','w','x','y','z','@','&','?','<','>',' ']
+
+#clock font            
+  - file: 'fonts/BebasNeue-Regular.ttf'
+    id: clock_font
+    size: 48
+
+#media contols font
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id: media_font
+    size: 24
+    glyphs: [
+      # media
+      '󰏦', #pause
+      '󰐍', #play
+      '󰙢', #next
+      '󰙤'  #back
+      ]
+
+#weather font      
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id: weather_font
+    size: 24
+    glyphs: [
+      # Weather
+      "󰖙", # mdi-weather-sunny
+      "󰖔", # mdi-weather-night
+      "󰖐", # mdi-weather-cloudy
+      "󰖖", # mdi-weather-pouring
+      "󰖞", # mdi-weather-windy-variant
+      "󰖑", # mdi-weather-fog
+      "󰼱", # mdi-weather-night-partly-cloudy
+      "󰖕", # mdi-weather-partly-cloudy
+    ]    
+
+#wifi battery font
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id: wifi_battery_font
+    size: 14
+    glyphs: [
+      # Battery & wifi
+      "󰁹", # battery 100
+      "󰂂", # battery 90
+      "󰂁", # battery 80
+      "󰂀", # battery 70
+      "󰁿", # battery 60
+      "󰁾", # battery 50  
+      "󰁽", # battery 40
+      "󰁼", # battery 30
+      "󰁻", # battery 20
+      "󰁺", # battery 10      
+      "󰤯", # wifi - 0
+      "󰤟", # wifi - 1 
+      "󰤢", # wifi - 2
+      "󰤥", # wifi - 3
+      "󰤨", # wifi - 4     
+      "󰚥", # charging
+    ]  
+
+#big icon font
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id: big_icon_font
+    size: 30
+    glyphs: [
+      "󰚥", # charging
+    ] 
+
+#big icon font
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id: charging_ring_icon_font
+    size: 64
+    glyphs: [
+      "󱥸"  # charging ring
+    ] 
+    
+#toggle switch font
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id: toggle_switch_font
+    size: 19
+    glyphs: [
+      # Toggle button
+      "󰨙", # button off
+      "󰨚"  # button on
+    ]  
+
+time:
+  - platform: homeassistant
+    id: esptime
+    timezone: Europe/London
+
+sensor:
+
+  - platform: homeassistant
+    id: inside_temperature
+    entity_id: "${temprature_sensor}"
+    internal: true
+
+  - platform: homeassistant
+    id: media_volume
+    entity_id: "${media}"
+    attribute: volume_level
+    internal: true    
+    
+  - platform: wifi_signal
+    name: "Home Remote WiFi Signal"
+    id: signal_strength
+    update_interval: 30s
+
+text_sensor:
+
+  - platform: homeassistant
+    id: scene
+    entity_id: "${scenes}"
+    internal: true
+    
+  - platform: homeassistant
+    id: media_title
+    entity_id: "${media}"
+    attribute: media_title
+    internal: true
+
+  - platform: homeassistant
+    id: media_artist
+    entity_id: "${media}"
+    attribute: media_artist
+    internal: true
+
+  - platform: homeassistant
+    id: weather
+    entity_id: "${weather}"
+    internal: true    
+
+  - platform: homeassistant
+    id: media_status
+    entity_id: "${media}"
+    internal: true 
+
+
+
+display:
+
+  - platform: ssd1306_i2c
+    model: "SH1106 128x64"
+    address: 0x3C
+    id: oled_display
+    contrast: 65%
+    update_interval: 250ms
+    pages:
+############################# INITIAL BLANK PAGE ###############################        
+      - id: page1
+        lambda: |-
+          it.printf(64, 32, id(media_artist_font), TextAlign::TOP_CENTER, "ButtonDeck");
+
+      - id: page2
+        lambda: |-
+          
+          //Scene display
+          if (id(scene).has_state()) {
+           it.printf(64, 0, id(media_artist_font),TextAlign::TOP_CENTER, "< %s >",to_string(id(scene).state).c_str());
+          }
+
+      
+           //wifi
+          if (id(signal_strength).state > -50)    
+          { it.printf(6, 0, id(wifi_battery_font),TextAlign::TOP_CENTER, "󰤨"); } 
+          else{
+          if (id(signal_strength).state > -60) 
+          { it.printf(6, 0, id(wifi_battery_font),TextAlign::TOP_CENTER, "󰤥"); } 
+          else{
+          if (id(signal_strength).state > -70) 
+          { it.printf(6, 0, id(wifi_battery_font),TextAlign::TOP_CENTER, "󰤢"); }
+          else{
+          if (id(signal_strength).state > -80) 
+          { it.printf(6, 0, id(wifi_battery_font),TextAlign::TOP_CENTER, "󰤟"); }
+          else{
+          if (id(signal_strength).state > -90) 
+          { it.printf(6, 0, id(wifi_battery_font),TextAlign::TOP_CENTER, "󰤯"); }
+            
+          }}}}
+
+         
+          //Weather display
+          if (id(weather).state == "sunny")    
+          { it.printf(110, 36, id(weather_font),TextAlign::CENTER, "󰖙"); }
+          if (id(weather).state == "night")    
+          { it.printf(110, 36, id(weather_font),TextAlign::CENTER, "󰖙"); }
+          if (id(weather).state == "cloudy")    
+          { it.printf(110, 36, id(weather_font),TextAlign::CENTER, "󰖐"); }
+          if (id(weather).state == "pouring")    
+          { it.printf(110, 36, id(weather_font),TextAlign::CENTER, "󰖖"); }
+          if (id(weather).state == "rainy")    
+          { it.printf(110, 36, id(weather_font),TextAlign::CENTER, "󰖖"); }
+          if (id(weather).state == "windy")    
+          { it.printf(110, 36, id(weather_font),TextAlign::CENTER, "󰖞"); }
+          if (id(weather).state == "fog")    
+          { it.printf(110, 36, id(weather_font),TextAlign::CENTER, "󰖑"); }
+          if (id(weather).state == "night-partly-cloudy")    
+          { it.printf(110, 36, id(weather_font),TextAlign::CENTER, "󰼱"); }
+          if (id(weather).state == "partly-cloudy")  
+          { it.printf(110, 36, id(weather_font),TextAlign::CENTER, "󰖕"); }
+          
+                     
+
+          
+          // Time
+          it.strftime(0, 60, id(clock_font), TextAlign::BASELINE_LEFT, "%H:%M", id(esptime).now());
+    
+          // Temperature
+          if (id(inside_temperature).has_state()) {
+            it.printf(127, 60, id(media_title_font), TextAlign::BASELINE_RIGHT , "%.1f°", id(inside_temperature).state);
+          }
+
+############################### LIGHTS PAGE ####################################               
+      - id: page3
+        lambda: |-
+          if (id(scene).has_state()) {
+           
+           //Rectangle
+            if (id(select_pos) == 0) 
+            {
+              it.rectangle(0, 0, 127, 17);
+            }
+            if (id(select_pos) == 1) 
+            {
+              it.rectangle(0, 16, 127, 17);
+            }
+            if (id(select_pos) == 2) 
+            {
+              it.rectangle(0, 32, 127, 17);
+            }
+            if (id(select_pos) == 3) 
+            {
+              it.rectangle(0, 46, 127, 17);
+            }
+                
+           //Lamp
+           it.printf(4, 0, id(media_title_font),TextAlign::LEFT, "${light_1_title}");
+           if(id(light_1).state == 1)
+           {
+           it.printf(102, 0, id(toggle_switch_font),TextAlign::LEFT, "󰨚");
+           }
+           else
+          {
+           it.printf(102, 0, id(toggle_switch_font),TextAlign::LEFT, "󰨙");
+           }
+           
+           it.printf(4, 16, id(media_title_font),TextAlign::LEFT, "${light_2_title}");
+           if(id(light_2).state == 1)
+           {
+           it.printf(102, 16, id(toggle_switch_font),TextAlign::LEFT, "󰨚");
+           }
+           else
+          {
+           it.printf(102, 16, id(toggle_switch_font),TextAlign::LEFT, "󰨙");
+           }
+           
+           it.printf(4,31, id(media_title_font),TextAlign::LEFT, "${light_3_title}");
+           if(id(light_3).state == 1)
+           {
+           it.printf(102,31, id(toggle_switch_font),TextAlign::LEFT, "󰨚");
+           }
+           else
+          {
+           it.printf(102, 31, id(toggle_switch_font),TextAlign::LEFT, "󰨙");
+           }
+           
+          it.printf(4, 46, id(media_title_font),TextAlign::LEFT, "${light_4_title}");
+           if(id(light_4).state == 1)
+           {
+           it.printf(102, 46, id(toggle_switch_font),TextAlign::LEFT, "󰨚");
+           }
+           else
+          {
+           it.printf(102, 46, id(toggle_switch_font),TextAlign::LEFT, "󰨙");
+           }
+           
+          }
+
+
+################################ MEDIA PAGE ####################################               
+      - id: page4
+        lambda: |-
+          if (id(media_title).has_state()) {
+           it.printf(64, 0, id(media_title_font),TextAlign::TOP_CENTER, "%s",to_string(id(media_title).state).c_str());
+           it.printf(64, 16, id(media_artist_font),TextAlign::TOP_CENTER, "%s",to_string(id(media_artist).state).c_str());
+           
+           it.rectangle(15, 33, 98, 5);
+           it.filled_rectangle(15, 33, (id(media_volume).state*98), 5);
+            
+           it.printf(26, 52, id(media_font),TextAlign::CENTER, "󰙤");
+           it.printf(102, 52, id(media_font),TextAlign::CENTER, "󰙢");
+           if(id(media_status).state == "playing")
+           {
+            it.printf(64, 52, id(media_font),TextAlign::CENTER, "󰏦");
+           }
+          else
+          {
+           it.printf(64, 52, id(media_font),TextAlign::CENTER, "󰐍");
+           }
+          }    
+
+
+################################# BOOT PAGE ####################################               
+      - id: page5
+        lambda: |-
+          it.printf(64, 32, id(media_artist_font), TextAlign::TOP_CENTER, "Sleeping...");   
