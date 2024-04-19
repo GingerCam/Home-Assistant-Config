@@ -263,7 +263,7 @@ display:
     address: 0x3C
     id: oled_display
     contrast: 65%
-    update_interval: 250ms
+    update_interval: 350ms
     pages:
 ############################# INITIAL BLANK PAGE ###############################        
       - id: page1
