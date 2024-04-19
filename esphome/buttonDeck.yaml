@@ -6,7 +6,7 @@ esphome:
     - wait_until:
         condition:
           api.connected: 
-    - display.page.show: page1
+    - display.page.show: page2
 
 substitutions:
 #Edit the substitutions to match your setup
