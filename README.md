@@ -1,7 +1,8 @@
-# Node Red automations
+# Home Assistant Config
 
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/t/GingerCam/Home-Assistant-Config)
 ![GitHub last commit](https://img.shields.io/github/last-commit/GingerCam/Home-Assistant-Config)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr/GingerCam/Home-Assistant-Config)
 
 A collection of my updated Home Assistant configuration inlucding:
 
@@ -17,6 +18,13 @@ Most of my automations are done in Node Red. These automations will be updated r
 - Raspberry Pi 4B running Home Assistant OS installed on a micro SD card
 - Argon40 Pi 4B case with passive and active cooling controlled by Argon40 addon
 - External 500GB hard drive for data, media, backups etc
+
+## Esphome
+
+- [ESPMedia](/esphome/espmedia.yaml) - program to control a HA media player entity with ESP based device
+- [TempHum](/esphome/temphum.yaml) - program to use a humity/temperature sensor
+- [Presence LEDs](/esphome/leds.yaml) - program to track if a device tracker is home by turning on an LED, for example, if turn on LED if person entity is home
+- [IR blaster](/esphome/ir.yaml) - program to control Pioneer Surround Sound System and Sony TV
 
 ## Additional node red modules
 
