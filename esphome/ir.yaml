@@ -50,5 +50,7 @@ switch:
 
 
 remote_receiver:
-    pin: D2
+    pin: 
+      number: D2
+      inverted: True
     dump: all
