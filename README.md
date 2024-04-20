@@ -12,7 +12,7 @@ A collection of my updated Home Assistant configuration including:
 - [configuration.yaml](/configuration.yaml)
 - [A sorted list of all of my automations](/documentation/automation_list.md)
   
-Most of my automations are done in Node Red. These automations will be updated regularly when I create, edit or optimise flows. You may need to edit the flows to suit your setup as you won't have some of the same personal entities as I do.  
+Most of my automations are done in Node-Red. These automations will be updated regularly when I create, edit or optimise flows. You may need to edit the flows to suit your setup as you won't have some of the same personal entities as I do.  
 
 ## My gear
 
@@ -21,14 +21,14 @@ Most of my automations are done in Node Red. These automations will be updated r
 - External 500GB hard drive for data, media, backups etc
 - ESP8266 NodeMCU based boards
 
-## Esphome
+## [Esphome](/esphome/)
 
 - [ESPMedia](/esphome/espmedia.yaml) - program to control a HA media player entity with ESP based device
 - [TempHum](/esphome/temphum.yaml) - program to use a humity/temperature sensor
 - [Presence LEDs](/esphome/leds.yaml) - program to track if a device tracker is home by turning on an LED, for example, if turn on LED if person entity is home
 - [IR blaster](/esphome/ir.yaml) - program to control Pioneer Surround Sound System and Sony TV
 
-## Additional node red modules
+## Additional Node-Red modules
 
 - [node-red-contrib-files-and-folders](https://flows.nodered.org/node/@objectif-lune/node-red-contrib-files-and-folders)
 - [node-red-contrib-bigtimer](https://flows.nodered.org/node/node-red-contrib-bigtimer)

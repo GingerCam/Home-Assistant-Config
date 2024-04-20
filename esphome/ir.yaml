@@ -35,49 +35,112 @@ remote_transmitter:
 button:
   - platform: template
     name: "Pioneer power"
+    id: ppower
     on_press:
-      remote_transmitter.transmit_pioneer:
-        rc_code_1: 0x65A1
-        rc_code_2: 0xF5BC
-        repeat:
-          times: 2
+      - remote_transmitter.transmit_pioneer:
+          rc_code_1: 0x65A1
+          rc_code_2: 0xF5BC
+          repeat:
+            times: 2
+      - switch.toggle: pioneerswitch
+
   - platform: template
     name: "Pioneer Line"
+    id: pline
     on_press:
-      remote_transmitter.transmit_pioneer:
-        rc_code_1: 0x65A0
-        rc_code_2: 0xF5A4
-        repeat:
-          times: 2
+      - remote_transmitter.transmit_pioneer:
+          rc_code_1: 0x65A0
+          rc_code_2: 0xF5A4
+          repeat:
+            times: 2
+      - select.next: pioneerline
+
   - platform: template
     name: "Pioneer Volume Up"
+    id: pvolup
     on_press:
-      remote_transmitter.transmit_pioneer:
-        rc_code_1: 0x650A
-        repeat:
-          times: 2
+      - remote_transmitter.transmit_pioneer:
+          rc_code_1: 0x650A
+          repeat:
+            times: 2
+      - number.increment: pioneervol
+
   - platform: template
     name: "Pioneer Volume Down"
+    id: pvold
     on_press:
-      remote_transmitter.transmit_pioneer:
-        rc_code_1: 0x650B
-        repeat:
-          times: 2
+      - remote_transmitter.transmit_pioneer:
+          rc_code_1: 0x650B
+          repeat:
+            times: 2
+      - number.decrement: pioneervol
+
   - platform: template
     name: "Pioneer Mute"
+    id: pmute
     on_press:
-      remote_transmitter.transmit_pioneer:
-        rc_code_1: 0x651E
-        repeat:
-          times: 2
+      - remote_transmitter.transmit_pioneer:
+          rc_code_1: 0x651E
+          repeat:
+            times: 2
+      - switch.toggle: pioneermute
+
   - platform: template
     name: "Sony Power"
+    id: spower
     on_press:
       remote_transmitter.transmit_sony:
         data: 0xA90
         nbits: 12
         repeat:
           times: 4
+
+switch:
+  - platform: template
+    name: "Power state"
+    icon: "mdi:power"
+    optimistic: True
+    id: pioneerswitch
+    restore_mode: RESTORE_DEFAULT_ON
+    #turn_on_action: 
+    #  then:
+    #    - button.press: ppower
+    #turn_off_action: 
+    #  then:
+    #    - button.press: ppower
+
+  - platform: template
+    name: "Muted"
+    optimistic: True
+    id: pioneermute
+    on_turn_on: 
+      then:
+        - button.press: pmute
+    on_turn_off: 
+      then:
+        - button.press: pmute
+    
+number:
+  - platform: template
+    name: "Volume Level"
+    max_value: 50
+    min_value: 0
+    step: 1
+    optimistic: True
+    id: pioneervol
+    restore_value: True
+
+select:
+  - platform: template
+    name: "Line Mode"
+    options: 
+     - "Line 1 Ana"
+     - "Line 1 Dig"
+     - "Line 2"
+    optimistic: True
+    id: pioneerline
+    restore_value: True
+    
 
 #remote_receiver:
 #    pin: 
