@@ -72,6 +72,12 @@ script:
       - lambda: |-
           id(oled_display).turn_off();
 
+button:
+  - platform: restart
+    name: "Restart device"
+  - platform: safe_mode
+    name: "Restart in Safe Mode"
+
 sensor:
 
   - platform: wifi_signal

@@ -33,6 +33,12 @@ remote_transmitter:
   carrier_duty_percent: 50%
 
 button:
+  - platform: restart
+    name: "Restart device"
+  
+  - platform: safe_mode
+    name: "Restart in Safe Mode"
+
   - platform: template
     name: "Pioneer power"
     id: ppower
