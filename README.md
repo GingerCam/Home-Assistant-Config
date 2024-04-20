@@ -7,9 +7,9 @@
 
 A collection of my updated Home Assistant configuration including:
 
-- Node Red Automations
-- Esphome configuration
-- configuration.yaml
+- [Node Red Automations](/node-red/)
+- [Esphome configuration](/esphome/)
+- [configuration.yaml](/configuration.yaml)
 - [A sorted list of all of my automations](/documentation/automation_list.md)
   
 Most of my automations are done in Node Red. These automations will be updated regularly when I create, edit or optimise flows. You may need to edit the flows to suit your setup as you won't have some of the same personal entities as I do.  
@@ -30,12 +30,12 @@ Most of my automations are done in Node Red. These automations will be updated r
 
 ## Additional node red modules
 
-- node-red-contrib-files-and-folders
-- node-red-contrib-bigtimer
-- node-red-contrib-boolean-logic
-- node-red-contrib-cast
-- node-red-contrib-image-tools
-- node-red-contrib-light-transition
-- node-red-contrib-looptimer  
+- [node-red-contrib-files-and-folders](https://flows.nodered.org/node/@objectif-lune/node-red-contrib-files-and-folders)
+- [node-red-contrib-bigtimer](https://flows.nodered.org/node/node-red-contrib-bigtimer)
+- [node-red-contrib-boolean-logic](https://flows.nodered.org/node/node-red-contrib-boolean-logic)
+- [node-red-contrib-cast](https://flows.nodered.org/node/node-red-contrib-cast)
+- [node-red-contrib-image-tools](https://flows.nodered.org/node/node-red-contrib-image-tools)
+- [node-red-contrib-light-transition](https://flows.nodered.org/node/node-red-contrib-light-transition)
+- [node-red-contrib-looptimer](https://flows.nodered.org/node/node-red-contrib-looptimer)
 
 I may not have used them all but I'm not too sure which ones i didn't use so it'll just be a list of custom installed nodes
