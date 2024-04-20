@@ -32,25 +32,55 @@ remote_transmitter:
   pin: D1
   carrier_duty_percent: 50%
 
-switch:
+button:
   - platform: template
-    name: "Pioneer toggle"
-    turn_on_action:
+    name: "Pioneer power"
+    on_press:
       remote_transmitter.transmit_pioneer:
-        rc_code_1: 0xA556
-        rc_code_2: 0xA506
+        rc_code_1: 0x65A1
+        rc_code_2: 0xF5BC
         repeat:
           times: 2
   - platform: template
-    name: "Sony toggle"
-    turn_on_action:
+    name: "Pioneer Line"
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        rc_code_1: 0x65A0
+        rc_code_2: 0xF5A4
+        repeat:
+          times: 2
+  - platform: template
+    name: "Pioneer Volume Up"
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        rc_code_1: 0x650A
+        repeat:
+          times: 2
+  - platform: template
+    name: "Pioneer Volume Down"
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        rc_code_1: 0x650B
+        repeat:
+          times: 2
+  - platform: template
+    name: "Pioneer Mute"
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        rc_code_1: 0x651E
+        repeat:
+          times: 2
+  - platform: template
+    name: "Sony Power"
+    on_press:
       remote_transmitter.transmit_sony:
-        data: 0x123
+        data: 0xA90
         nbits: 12
+        repeat:
+          times: 4
 
-
-remote_receiver:
-    pin: 
-      number: D2
-      inverted: True
-    dump: all
+#remote_receiver:
+#    pin: 
+#      number: D2
+#      inverted: True
+#    dump: all
