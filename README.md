@@ -3,21 +3,23 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/t/GingerCam/Home-Assistant-Config)
 ![GitHub last commit](https://img.shields.io/github/last-commit/GingerCam/Home-Assistant-Config)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr/GingerCam/Home-Assistant-Config)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr-closed/GingerCam/Home-Assistant-Config)
 
-A collection of my updated Home Assistant configuration inlucding:
+A collection of my updated Home Assistant configuration including:
 
 - Node Red Automations
 - Esphome configuration
 - configuration.yaml
 - [A sorted list of all of my automations](/documentation/automation_list.md)
   
-Most of my automations are done in Node Red. These automations will be updated regularly when i create, edit or optimise flows. You may need to edit the flows to suit your setup as you won't have some of the same personal entities as i do.  
+Most of my automations are done in Node Red. These automations will be updated regularly when I create, edit or optimise flows. You may need to edit the flows to suit your setup as you won't have some of the same personal entities as I do.  
 
 ## My gear
 
 - Raspberry Pi 4B running Home Assistant OS installed on a micro SD card
 - Argon40 Pi 4B case with passive and active cooling controlled by Argon40 addon
 - External 500GB hard drive for data, media, backups etc
+- ESP8266 NodeMCU based boards
 
 ## Esphome
 
