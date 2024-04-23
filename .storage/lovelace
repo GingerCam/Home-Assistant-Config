@@ -1,0 +1,1168 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "title": "Home",
+          "cards": [
+            {
+              "type": "custom:mushroom-chips-card",
+              "chips": [
+                {
+                  "type": "weather",
+                  "entity": "weather.openweathermap",
+                  "show_conditions": true,
+                  "show_temperature": true
+                },
+                {
+                  "type": "template",
+                  "content": "{{ state_attr('climate.thermostat_1', 'current_temperature') }}°C",
+                  "entity": "climate.thermostat_1",
+                  "icon": "mdi:thermometer"
+                },
+                {
+                  "type": "template",
+                  "content": "{% set ns = namespace(res=0) %}\n{% for light in state_attr('light.all_lights', 'entity_id') if is_state(light, 'on') %}\n  {% set ns.res = ns.res + 1 %}\n{%endfor%}\n{{ ns.res }}",
+                  "icon": "mdi:lightbulb-group-outline",
+                  "entity": "light.all_lights",
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "hold_action": {
+                    "action": "more-info"
+                  },
+                  "icon_color": "{% if is_state('light.cams_bedroom_light', 'on') %}\n  orange\n{% endif %}"
+                }
+              ],
+              "alignment": "center"
+            },
+            {
+              "type": "custom:mushroom-template-card",
+              "primary": "{% set time = now().hour %}\n{% if (time >= 18) %}\n  Good Evening, {{user}}\n{% elif (time >= 12) %}\n  Good Afternoon, {{user}}\n{% elif (time >= 5) %}\n  Good Morning, {{user}}\n{% else %}\n  Hello, {{user}}\n{% endif %}",
+              "secondary": "",
+              "icon": "",
+              "multiline_secondary": false,
+              "fill_container": false,
+              "double_tap_action": {
+                "action": "navigate",
+                "navigation_path": "/config"
+              }
+            },
+            {
+              "type": "horizontal-stack",
+              "cards": [
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Media",
+                  "secondary": "",
+                  "icon": "mdi:multimedia",
+                  "layout": "vertical",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/dashboard-mushroom/media"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "icon_color": "blue",
+                  "badge_color": ""
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Devices",
+                  "secondary": "",
+                  "icon": "mdi:devices",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/dashboard-mushroom/devices"
+                  },
+                  "layout": "vertical",
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "icon_color": "green"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Lights",
+                  "secondary": "",
+                  "icon": "mdi:lightbulb-variant",
+                  "layout": "vertical",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/dashboard-mushroom/lights"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "fill_container": false,
+                  "icon_color": "orange"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Switch",
+                  "secondary": "",
+                  "icon": "mdi:toggle-switch",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/switches"
+                  },
+                  "layout": "vertical",
+                  "icon_color": "yellow"
+                }
+              ]
+            },
+            {
+              "type": "horizontal-stack",
+              "cards": [
+                {
+                  "type": "custom:mushroom-person-card",
+                  "entity": "person.cam",
+                  "icon_type": "entity-picture"
+                },
+                {
+                  "type": "custom:mushroom-person-card",
+                  "entity": "person.iain",
+                  "icon_type": "entity-picture"
+                }
+              ]
+            },
+            {
+              "type": "horizontal-stack",
+              "cards": [
+                {
+                  "type": "custom:mushroom-person-card",
+                  "entity": "person.emily",
+                  "icon_type": "entity-picture"
+                },
+                {
+                  "type": "custom:mushroom-person-card",
+                  "entity": "person.rachel",
+                  "icon_type": "entity-picture"
+                }
+              ]
+            },
+            {
+              "type": "custom:mushroom-title-card",
+              "title": "Rooms"
+            },
+            {
+              "type": "horizontal-stack",
+              "cards": [
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Kitchen",
+                  "secondary": "",
+                  "icon": "mdi:microwave",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "familyRoom"
+                  },
+                  "icon_color": "",
+                  "entity": "climate.thermostat_1",
+                  "hold_action": {
+                    "action": "toggle"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Cam's Room",
+                  "secondary": "",
+                  "icon": "mdi:bed",
+                  "entity": "light.bedroom_lights",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/dashboard-mushroom/camsRoom"
+                  },
+                  "hold_action": {
+                    "action": "toggle"
+                  },
+                  "icon_color": "{% if is_state(\"light.bedroom_lights\", \"on\") %}\n{{ state_attr(\"light.bedroom_lights\", \"rgb_color\") }}\n{%- endif %}"
+                }
+              ]
+            },
+            {
+              "type": "horizontal-stack",
+              "cards": [
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Office",
+                  "secondary": "",
+                  "icon": "mdi:desk",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "office"
+                  },
+                  "icon_color": "{% if is_state('climate.thermostat_1', 'on') %}\n  orange\n{% endif %}"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Lounge",
+                  "secondary": "",
+                  "icon": "mdi:sofa",
+                  "entity": "light.smart_plug_living_room_socket",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "lounge"
+                  },
+                  "hold_action": {
+                    "action": "toggle"
+                  },
+                  "icon_color": "{% if is_state(\"light.smart_plug_living_room_socket\", \"on\") %}\norange\n{%- endif %}"
+                }
+              ]
+            },
+            {
+              "type": "horizontal-stack",
+              "cards": [
+                {
+                  "type": "custom:mushroom-light-card",
+                  "entity": "light.all_lights",
+                  "layout": "vertical",
+                  "secondary_info": "none",
+                  "name": "All"
+                },
+                {
+                  "type": "custom:mushroom-light-card",
+                  "entity": "light.hall_landing",
+                  "layout": "vertical",
+                  "secondary_info": "none",
+                  "name": "Hall",
+                  "icon": "mdi:ceiling-light-multiple"
+                },
+                {
+                  "type": "custom:mushroom-light-card",
+                  "entity": "light.outside_lights",
+                  "name": "Outside",
+                  "icon": "mdi:light-flood-down",
+                  "layout": "vertical",
+                  "secondary_info": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Media",
+          "path": "media",
+          "subview": true,
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:mushroom-media-player-card",
+              "entity": "media_player.family_room",
+              "show_volume_level": true,
+              "volume_controls": [
+                "volume_buttons",
+                "volume_set"
+              ],
+              "media_controls": [
+                "play_pause_stop"
+              ],
+              "use_media_info": true,
+              "tap_action": {
+                "action": "toggle"
+              },
+              "collapsible_controls": true,
+              "hold_action": {
+                "action": "more-info"
+              }
+            },
+            {
+              "type": "custom:mushroom-media-player-card",
+              "entity": "media_player.now_tv_yd007x747650",
+              "use_media_info": true,
+              "media_controls": [
+                "on_off",
+                "play_pause_stop"
+              ],
+              "show_volume_level": false,
+              "icon": "mdi:usb-flash-drive",
+              "name": "NowTV",
+              "collapsible_controls": true
+            },
+            {
+              "type": "custom:mushroom-media-player-card",
+              "entity": "media_player.cams_speaker",
+              "use_media_info": true,
+              "media_controls": [
+                "next",
+                "play_pause_stop",
+                "previous",
+                "shuffle",
+                "repeat",
+                "on_off"
+              ],
+              "collapsible_controls": true,
+              "volume_controls": [
+                "volume_buttons",
+                "volume_set",
+                "volume_mute"
+              ],
+              "show_volume_level": true
+            },
+            {
+              "type": "custom:mushroom-media-player-card",
+              "entity": "media_player.sony_kdl_50w829b",
+              "name": "Living room TV",
+              "media_controls": [
+                "on_off"
+              ],
+              "volume_controls": [],
+              "show_volume_level": false,
+              "collapsible_controls": true,
+              "tap_action": {
+                "action": "more-info"
+              },
+              "use_media_info": false
+            },
+            {
+              "type": "custom:mushroom-media-player-card",
+              "entity": "media_player.chromecast",
+              "media_controls": [
+                "on_off",
+                "play_pause_stop"
+              ],
+              "name": "Chromecast",
+              "use_media_info": true,
+              "collapsible_controls": true
+            },
+            {
+              "type": "custom:mushroom-media-player-card",
+              "entity": "media_player.table_speaker",
+              "use_media_info": true,
+              "show_volume_level": true,
+              "volume_controls": [
+                "volume_mute",
+                "volume_set",
+                "volume_buttons"
+              ],
+              "media_controls": [
+                "on_off",
+                "next",
+                "play_pause_stop",
+                "shuffle",
+                "previous",
+                "repeat"
+              ],
+              "tap_action": {
+                "action": "more-info"
+              },
+              "collapsible_controls": true
+            },
+            {
+              "type": "custom:mushroom-media-player-card",
+              "entity": "media_player.xboxone",
+              "icon": "mdi:microsoft-xbox",
+              "show_volume_level": true,
+              "collapsible_controls": true,
+              "media_controls": [
+                "on_off"
+              ],
+              "volume_controls": [
+                "volume_set",
+                "volume_buttons",
+                "volume_mute"
+              ],
+              "use_media_info": true
+            }
+          ]
+        },
+        {
+          "title": "Devices",
+          "path": "devices",
+          "subview": true,
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:mushroom-entity-card",
+              "entity": "switch.smart_plug_socket",
+              "tap_action": {
+                "action": "toggle"
+              }
+            },
+            {
+              "type": "custom:mushroom-entity-card",
+              "entity": "number.dave_feeder_feed",
+              "name": "Dave's Feeder",
+              "tap_action": {
+                "action": "toggle"
+              },
+              "hold_action": {
+                "action": "more-info"
+              }
+            },
+            {
+              "type": "custom:mushroom-entity-card",
+              "entity": "switch.smart_plug_xmas_socket_1"
+            },
+            {
+              "type": "custom:mushroom-climate-card",
+              "entity": "climate.thermostat_1",
+              "show_temperature_control": true,
+              "name": "Thermostat",
+              "collapsible_controls": true
+            }
+          ]
+        },
+        {
+          "title": "Lights",
+          "path": "lights",
+          "subview": true,
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:mushroom-light-card",
+              "entity": "light.cams_bedroom_light",
+              "use_light_color": true,
+              "show_brightness_control": true,
+              "show_color_control": true,
+              "show_color_temp_control": true,
+              "collapsible_controls": true,
+              "tap_action": {
+                "action": "toggle"
+              }
+            },
+            {
+              "type": "custom:mushroom-light-card",
+              "entity": "light.hall",
+              "tap_action": {
+                "action": "toggle"
+              },
+              "use_light_color": false,
+              "show_brightness_control": true,
+              "show_color_temp_control": false,
+              "show_color_control": false,
+              "collapsible_controls": true
+            },
+            {
+              "type": "custom:mushroom-light-card",
+              "entity": "light.landing",
+              "show_brightness_control": true,
+              "tap_action": {
+                "action": "toggle"
+              },
+              "hold_action": {
+                "action": "more-info"
+              },
+              "use_light_color": true,
+              "collapsible_controls": true
+            },
+            {
+              "type": "custom:mushroom-light-card",
+              "entity": "light.front_light_2"
+            },
+            {
+              "type": "custom:mushroom-light-card",
+              "entity": "light.front_light",
+              "icon": "mdi:light-flood-down"
+            },
+            {
+              "type": "custom:mushroom-light-card",
+              "entity": "light.smart_plug_living_room_socket",
+              "name": "Smart Plug",
+              "tap_action": {
+                "action": "toggle"
+              },
+              "hold_action": {
+                "action": "more-info"
+              }
+            }
+          ]
+        },
+        {
+          "subview": true,
+          "title": "Cam's Room",
+          "path": "camsRoom",
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:mushroom-light-card",
+              "entity": "light.cams_bedroom_light",
+              "use_light_color": true,
+              "show_brightness_control": true,
+              "show_color_temp_control": true,
+              "show_color_control": true,
+              "collapsible_controls": true,
+              "tap_action": {
+                "action": "toggle"
+              },
+              "hold_action": {
+                "action": "more-info"
+              }
+            },
+            {
+              "type": "custom:mushroom-media-player-card",
+              "entity": "media_player.cams_speaker",
+              "use_media_info": true,
+              "show_volume_level": true,
+              "media_controls": [
+                "play_pause_stop",
+                "next",
+                "repeat",
+                "previous",
+                "shuffle",
+                "on_off"
+              ],
+              "volume_controls": [
+                "volume_buttons",
+                "volume_set",
+                "volume_mute"
+              ],
+              "tap_action": {
+                "action": "toggle"
+              },
+              "hold_action": {
+                "action": "more-info"
+              },
+              "collapsible_controls": true
+            },
+            {
+              "type": "custom:mushroom-media-player-card",
+              "entity": "media_player.xboxone",
+              "icon": "mdi:microsoft-xbox",
+              "use_media_info": true,
+              "collapsible_controls": true,
+              "media_controls": [
+                "play_pause_stop",
+                "on_off"
+              ],
+              "tap_action": {
+                "action": "toggle"
+              },
+              "hold_action": {
+                "action": "more-info"
+              }
+            },
+            {
+              "type": "custom:mushroom-template-card",
+              "primary": "Chuck",
+              "secondary": "{{ states('switch.smart_plug_xmas_socket_1')}}",
+              "icon": "mdi:power-socket-uk",
+              "entity": "switch.smart_plug_xmas_socket_1",
+              "tap_action": {
+                "action": "toggle"
+              },
+              "hold_action": {
+                "action": "more-info"
+              },
+              "icon_color": "{% if is_state('switch.smart_plug_xmas_socket_1', 'on') %}\n  orange\n{% endif %}"
+            },
+            {
+              "type": "custom:mushroom-media-player-card",
+              "entity": "media_player.spotify_gingercam",
+              "name": "Spotify",
+              "media_controls": [
+                "on_off",
+                "shuffle",
+                "play_pause_stop",
+                "next",
+                "repeat",
+                "previous"
+              ],
+              "volume_controls": [],
+              "collapsible_controls": true,
+              "use_media_info": true,
+              "show_volume_level": false
+            },
+            {
+              "type": "custom:mushroom-entity-card",
+              "entity": "input_button.wake_computer",
+              "secondary_info": "none",
+              "tap_action": {
+                "action": "toggle"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Lounge",
+          "path": "lounge",
+          "subview": true,
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:mushroom-media-player-card",
+              "entity": "media_player.sony_kdl_50w829b",
+              "name": "Living Room TV",
+              "use_media_info": true,
+              "media_controls": [
+                "on_off"
+              ],
+              "collapsible_controls": true,
+              "tap_action": {
+                "action": "more-info"
+              },
+              "hold_action": {
+                "action": "toggle"
+              },
+              "volume_controls": [],
+              "show_volume_level": false
+            },
+            {
+              "type": "custom:mini-media-player",
+              "entity": "media_player.now_tv_yd007x747650",
+              "artwork": "material",
+              "volume_stateless": true
+            },
+            {
+              "type": "custom:mushroom-light-card",
+              "name": "Smart Plug",
+              "tap_action": {
+                "action": "toggle"
+              },
+              "hold_action": {
+                "action": "more-info"
+              },
+              "entity": "light.smart_plug_living_room_socket",
+              "collapsible_controls": false
+            },
+            {
+              "type": "custom:mushroom-media-player-card",
+              "entity": "media_player.chromecast",
+              "use_media_info": true
+            }
+          ]
+        },
+        {
+          "title": "Office",
+          "path": "office",
+          "subview": true,
+          "badges": [],
+          "cards": [
+            {
+              "type": "thermostat",
+              "entity": "climate.thermostat_1",
+              "name": "Hive",
+              "features": [
+                {
+                  "type": "climate-hvac-modes",
+                  "hvac_modes": [
+                    "auto",
+                    "heat",
+                    "off"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "alarm-panel",
+              "states": [
+                "arm_home",
+                "arm_away"
+              ],
+              "entity": "alarm_control_panel.alarmo"
+            }
+          ]
+        },
+        {
+          "title": "Kitchen",
+          "path": "familyRoom",
+          "subview": true,
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:mushroom-media-player-card",
+              "entity": "media_player.family_room",
+              "use_media_info": true,
+              "show_volume_level": true,
+              "collapsible_controls": true,
+              "media_controls": [
+                "previous",
+                "play_pause_stop",
+                "next"
+              ],
+              "volume_controls": [
+                "volume_buttons",
+                "volume_set",
+                "volume_mute"
+              ],
+              "hold_action": {
+                "action": "more-info"
+              },
+              "tap_action": {
+                "action": "more-info"
+              }
+            },
+            {
+              "type": "custom:mushroom-climate-card",
+              "entity": "climate.thermostat_1",
+              "name": "Thermostat ",
+              "show_temperature_control": true,
+              "collapsible_controls": true,
+              "tap_action": {
+                "action": "toggle"
+              },
+              "hold_action": {
+                "action": "more-info"
+              }
+            },
+            {
+              "type": "custom:mushroom-entity-card",
+              "entity": "binary_sensor.kitchen_motion"
+            },
+            {
+              "type": "custom:mushroom-template-card",
+              "primary": "Dave's feeder ",
+              "secondary": "{{ states('binary_sensor.dave_feeder_feeding') }}",
+              "icon": "mdi:cat",
+              "entity": "number.dave_feeder_feed",
+              "tap_action": {
+                "action": "toggle"
+              },
+              "hold_action": {
+                "action": "more-info"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Switches",
+          "path": "switches",
+          "subview": true,
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "switch.spotify_when_arrive_home",
+                  "name": "Spotify When Home",
+                  "icon": "mdi:spotify"
+                },
+                {
+                  "entity": "switch.presence_detection"
+                },
+                {
+                  "entity": "input_boolean.sleeper_mode",
+                  "name": "Currently asleep"
+                },
+                {
+                  "entity": "input_boolean.sync_bedroom_speaker"
+                },
+                {
+                  "entity": "input_boolean.sync_bedroom_lights"
+                },
+                {
+                  "entity": "input_boolean.xbox_select"
+                },
+                {
+                  "entity": "select.nodered_ba2253c47674bd6e",
+                  "secondary_info": "none",
+                  "icon": "mdi:microsoft-xbox"
+                },
+                {
+                  "entity": "switch.sleep_mode",
+                  "icon": "mdi:sleep",
+                  "secondary_info": "none"
+                },
+                {
+                  "entity": "switch.sleep_lights",
+                  "icon": "mdi:bed-clock"
+                },
+                {
+                  "entity": "switch.red_mode"
+                },
+                {
+                  "entity": "switch.waiting_for_someone"
+                },
+                {
+                  "entity": "select.friend_selection"
+                },
+                {
+                  "entity": "button.friend_selector"
+                },
+                {
+                  "entity": "input_number.food_timer"
+                },
+                {
+                  "entity": "button.nodered_90fab2ad612847da"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Latitude",
+          "path": "latitude",
+          "subview": true,
+          "visible": [
+            {
+              "user": "fcfdb8e32e1d468697f1648d95d619c9"
+            }
+          ],
+          "badges": [],
+          "cards": [
+            {
+              "type": "vertical-stack",
+              "cards": [
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "toggle"
+                      },
+                      "icon": "mdi:volume-minus",
+                      "name": "Volume Down",
+                      "show_state": false,
+                      "entity": "sensor.latitude_currentvolume"
+                    },
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "none"
+                      },
+                      "entity": "sensor.latitude_currentvolume",
+                      "show_state": true,
+                      "name": "Volume",
+                      "icon": ""
+                    },
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "toggle"
+                      },
+                      "entity": "button.latitude_mediavolumeup",
+                      "name": "Volume Up",
+                      "icon": "mdi:volume-plus"
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "toggle"
+                      },
+                      "entity": "button.latitude_monitorsleep",
+                      "name": "Monitors Off",
+                      "icon": "mdi:monitor-off",
+                      "show_state": false
+                    },
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "toggle"
+                      },
+                      "entity": "sensor.latitude_display_display_count",
+                      "show_state": true,
+                      "name": "Displays",
+                      "icon": "mdi:monitor-multiple"
+                    },
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "toggle"
+                      },
+                      "entity": "button.latitude_monitorwake",
+                      "name": "Monitors On",
+                      "icon": "mdi:monitor"
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "toggle"
+                      },
+                      "entity": "button.latitude_lock",
+                      "name": "Lock",
+                      "icon": "mdi:monitor-lock"
+                    },
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "toggle"
+                      },
+                      "entity": "button.latitude_shutdown",
+                      "name": "Shutdown",
+                      "icon": "mdi:power"
+                    },
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "toggle"
+                      },
+                      "name": "Sleep",
+                      "icon": "mdi:power-sleep",
+                      "show_state": false,
+                      "entity": "button.latitude_sleep"
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "entity",
+                      "entity": "sensor.latitude_storage_c",
+                      "attribute": "UsedSpacePercentage",
+                      "unit": "% Used",
+                      "name": "SSD",
+                      "state_color": false
+                    },
+                    {
+                      "type": "entity",
+                      "entity": "sensor.latitude_storage_d",
+                      "attribute": "UsedSpacePercentage",
+                      "unit": "% Used",
+                      "name": "Birpa"
+                    },
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "toggle"
+                      },
+                      "entity": "switch.latitude",
+                      "icon": "mdi:power"
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "toggle"
+                      },
+                      "entity": "button.latitude_mediaplaypause",
+                      "name": "Play/pause",
+                      "icon": "mdi:play-pause"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Xbox",
+          "path": "xbox",
+          "subview": true,
+          "badges": [],
+          "cards": [
+            {
+              "type": "vertical-stack",
+              "cards": [
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "toggle"
+                      },
+                      "icon": "mdi:netflix",
+                      "name": "Netflix"
+                    },
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "call-service",
+                        "service": "remote.send_command",
+                        "target": {
+                          "entity_id": "remote.xboxone_remote"
+                        },
+                        "data": {
+                          "command": "Up"
+                        }
+                      },
+                      "icon": "mdi:arrow-up-bold"
+                    },
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "call-service",
+                        "service": "media_player.media_pause",
+                        "target": {
+                          "entity_id": "media_player.xboxone"
+                        }
+                      },
+                      "icon": "mdi:play-pause"
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "call-service",
+                        "service": "remote.send_command",
+                        "target": {
+                          "entity_id": "remote.xboxone_remote"
+                        },
+                        "data": {
+                          "command": "Left"
+                        }
+                      },
+                      "icon": "mdi:arrow-left-bold"
+                    },
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "call-service",
+                        "service": "remote.send_command",
+                        "target": {
+                          "entity_id": "remote.xboxone_remote"
+                        },
+                        "data": {
+                          "command": "A"
+                        }
+                      },
+                      "icon": "mdi:arrow-right-drop-circle"
+                    },
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "call-service",
+                        "service": "remote.send_command",
+                        "target": {
+                          "entity_id": "remote.xboxone_remote"
+                        },
+                        "data": {
+                          "command": "Right"
+                        }
+                      },
+                      "icon": "mdi:arrow-right-bold"
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "call-service",
+                        "service": "remote.toggle",
+                        "target": {
+                          "entity_id": [
+                            "remote.xboxone_remote"
+                          ]
+                        }
+                      },
+                      "icon": "mdi:power"
+                    },
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "call-service",
+                        "service": "remote.send_command",
+                        "target": {
+                          "entity_id": "remote.xboxone_remote"
+                        },
+                        "data": {
+                          "command": "Down"
+                        }
+                      },
+                      "icon": "mdi:arrow-down-bold"
+                    },
+                    {
+                      "show_name": true,
+                      "show_icon": true,
+                      "type": "button",
+                      "tap_action": {
+                        "action": "call-service",
+                        "service": "remote.send_command",
+                        "target": {
+                          "entity_id": "remote.xboxone_remote"
+                        },
+                        "data": {
+                          "command": "B"
+                        }
+                      },
+                      "icon": "mdi:arrow-left-top-bold"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "custom:mini-media-player",
+              "entity": "media_player.xboxone",
+              "artwork": "material",
+              "volume_stateless": true
+            },
+            {
+              "type": "custom:mini-media-player",
+              "entity": "media_player.plex_plex_for_xbox_xboxone",
+              "artwork": "material",
+              "volume_stateless": true
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "input_boolean.xbox_select"
+                },
+                {
+                  "entity": "select.nodered_ba2253c47674bd6e"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "title": "Dashboard "
+    }
+  }
+}

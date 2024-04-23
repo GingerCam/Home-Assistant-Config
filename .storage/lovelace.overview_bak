@@ -1,0 +1,227 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.overview_bak",
+  "data": {
+    "config": {
+      "title": "Home",
+      "views": [
+        {
+          "path": "default_view",
+          "title": "Home",
+          "cards": [
+            {
+              "type": "weather-forecast",
+              "entity": "weather.forecast_home",
+              "show_forecast": false
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "person.cam",
+                "person.iain"
+              ]
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.iains_12_battery_level"
+                },
+                {
+                  "entity": "sensor.sm_a125f_battery_level",
+                  "name": "Cam's A12 Battery level"
+                }
+              ]
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "update.advanced_ssh_web_terminal_update",
+                  "name": "SSH Update"
+                },
+                {
+                  "entity": "update.aircast_update"
+                },
+                {
+                  "entity": "update.airsonos_update"
+                },
+                {
+                  "entity": "update.cec_scanner_update"
+                },
+                {
+                  "entity": "update.duck_dns_update"
+                },
+                {
+                  "entity": "update.file_editor_update"
+                },
+                {
+                  "entity": "update.home_assistant_core_update",
+                  "name": "Core Update "
+                },
+                {
+                  "entity": "update.home_assistant_operating_system_update",
+                  "name": "OS Update"
+                },
+                {
+                  "entity": "update.home_assistant_supervisor_update",
+                  "name": "Supervisor Update"
+                },
+                {
+                  "entity": "update.let_s_encrypt_update"
+                },
+                {
+                  "entity": "update.plex_media_server_update"
+                },
+                {
+                  "entity": "update.rpc_shutdown_update"
+                },
+                {
+                  "entity": "update.samba_share_update"
+                },
+                {
+                  "entity": "update.spotify_connect_update"
+                },
+                {
+                  "entity": "update.studio_code_server_update"
+                },
+                {
+                  "entity": "update.vlc_update"
+                },
+                {
+                  "entity": "update.whisper_update"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Devices ",
+          "icon": "",
+          "badges": [],
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.speedtest_download"
+                },
+                {
+                  "entity": "sensor.speedtest_upload"
+                },
+                {
+                  "entity": "sensor.speedtest_ping"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "square": false,
+              "columns": 1,
+              "cards": [
+                {
+                  "type": "thermostat",
+                  "entity": "climate.thermostat_1",
+                  "name": "Thermostat "
+                }
+              ]
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.hp_officejet_pro_8020_series_black_cartridge",
+                  "name": "Black ink"
+                },
+                {
+                  "entity": "sensor.hp_officejet_pro_8020_series_cyan_cartridge",
+                  "name": "Cyan ink"
+                },
+                {
+                  "entity": "sensor.hp_officejet_pro_8020_series_magenta_cartridge",
+                  "name": "Magenta ink "
+                },
+                {
+                  "entity": "sensor.hp_officejet_pro_8020_series_yellow_cartridge",
+                  "name": "Yellow ink"
+                }
+              ],
+              "state_color": true
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "switch.latitude"
+                }
+              ]
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "sensor.cpu_temperature"
+              ]
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "script.turn_off_guitar",
+                "script.turn_on_guitar"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Media",
+          "badges": [],
+          "cards": [
+            {
+              "type": "media-control",
+              "entity": "media_player.family_room"
+            },
+            {
+              "type": "media-control",
+              "entity": "media_player.now_tv_yd007x747650"
+            },
+            {
+              "square": false,
+              "type": "grid",
+              "columns": 1,
+              "cards": [
+                {
+                  "type": "media-control",
+                  "entity": "media_player.sony_kdl_50w829b",
+                  "theme": "noctis"
+                }
+              ]
+            },
+            {
+              "type": "media-control",
+              "entity": "media_player.xboxone"
+            },
+            {
+              "type": "media-control",
+              "entity": "media_player.table_speaker"
+            },
+            {
+              "type": "grid",
+              "square": false,
+              "columns": 1,
+              "cards": [
+                {
+                  "type": "media-control",
+                  "entity": "media_player.cams_speaker"
+                },
+                {
+                  "type": "media-control",
+                  "entity": "media_player.chromecast"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

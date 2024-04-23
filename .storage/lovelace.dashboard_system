@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_system",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "title": "Home",
+          "cards": [
+            {
+              "type": "horizontal-stack",
+              "cards": [
+                {
+                  "type": "gauge",
+                  "entity": "sensor.processor_use",
+                  "severity": {
+                    "green": 0,
+                    "yellow": 50,
+                    "red": 80
+                  }
+                },
+                {
+                  "type": "gauge",
+                  "entity": "sensor.cpu_temperature",
+                  "severity": {
+                    "green": 0,
+                    "yellow": 50,
+                    "red": 65
+                  },
+                  "needle": false,
+                  "min": 0,
+                  "max": 100
+                }
+              ]
+            },
+            {
+              "type": "horizontal-stack",
+              "cards": [
+                {
+                  "type": "gauge",
+                  "entity": "sensor.disk_use_percent_config",
+                  "name": "Disk Usage",
+                  "needle": false,
+                  "severity": {
+                    "green": 0,
+                    "yellow": 50,
+                    "red": 80
+                  }
+                }
+              ]
+            },
+            {
+              "type": "horizontal-stack",
+              "cards": [
+                {
+                  "type": "gauge",
+                  "entity": "sensor.memory_use_percent",
+                  "name": "RAM Usage",
+                  "severity": {
+                    "green": 0,
+                    "yellow": 70,
+                    "red": 85
+                  },
+                  "needle": false
+                }
+              ]
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "sensor.argon_one_addon_fan_speed"
+              ]
+            }
+          ]
+        }
+      ],
+      "title": "System"
+    }
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_personal",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "title": "Home",
+          "layout": {
+            "max_cols": 3
+          },
+          "cards": [
+            {
+              "type": "vertical-stack",
+              "cards": [
+                {
+                  "type": "custom:mini-media-player",
+                  "entity": "media_player.spotify_gingercam",
+                  "artwork": "material",
+                  "volume_stateless": true,
+                  "info": "scroll"
+                },
+                {
+                  "type": "custom:mini-media-player",
+                  "entity": "media_player.xps_13",
+                  "volume_stateless": true,
+                  "artwork": "material"
+                },
+                {
+                  "type": "custom:mini-media-player",
+                  "entity": "media_player.xboxone",
+                  "artwork": "material",
+                  "volume_stateless": true,
+                  "info": "scroll"
+                },
+                {
+                  "type": "custom:mini-media-player",
+                  "entity": "media_player.plex_plex_for_xbox_xboxone",
+                  "artwork": "material",
+                  "info": "scroll",
+                  "volume_stateless": true
+                }
+              ]
+            },
+            {
+              "type": "vertical-stack",
+              "cards": [
+                {
+                  "show_current": true,
+                  "show_forecast": true,
+                  "type": "weather-forecast",
+                  "entity": "weather.forecast_home",
+                  "forecast_type": "hourly"
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "number.currently_playing_speakers",
+                  "layout": "horizontal",
+                  "icon_type": "entity-picture",
+                  "icon": "mdi:speaker-multiple"
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "number.known_guests_home",
+                  "icon": "mdi:account-group",
+                  "icon_color": "accent"
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "number.home_occupants",
+                  "icon": "mdi:account-group",
+                  "icon_color": "red"
+                }
+              ]
+            },
+            {
+              "type": "vertical-stack",
+              "cards": [
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-person-card",
+                      "entity": "person.cam",
+                      "layout": "vertical",
+                      "icon_type": "entity-picture"
+                    },
+                    {
+                      "type": "custom:mushroom-person-card",
+                      "entity": "person.iain",
+                      "layout": "vertical",
+                      "icon_type": "entity-picture"
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-person-card",
+                      "entity": "person.emily",
+                      "layout": "vertical",
+                      "icon_type": "entity-picture"
+                    },
+                    {
+                      "type": "custom:mushroom-person-card",
+                      "entity": "person.rachel",
+                      "layout": "vertical",
+                      "icon_type": "entity-picture"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:mushroom-light-card",
+                  "entity": "light.all_lights",
+                  "show_brightness_control": true,
+                  "layout": "horizontal"
+                },
+                {
+                  "type": "custom:mushroom-light-card",
+                  "entity": "light.bedroom_lights",
+                  "show_brightness_control": true,
+                  "show_color_control": true,
+                  "layout": "horizontal",
+                  "fill_container": false
+                },
+                {
+                  "type": "custom:mushroom-light-card",
+                  "entity": "light.hall_landing",
+                  "show_brightness_control": true,
+                  "layout": "horizontal"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "title": "Home"
+    }
+  }
+}
